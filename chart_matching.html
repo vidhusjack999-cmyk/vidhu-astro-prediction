@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Horoscope Matching by Birth Chart Report - Vidhu Astro Prediction</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Georgia', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #fffdf2;
+            background-image:
+                radial-gradient(circle at left center, rgba(212, 175, 55, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at right center, rgba(212, 175, 55, 0.08) 0%, transparent 40%);
+            padding: 25px 20px;
+            color: #2c3e2e;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 980px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 35px 30px;
+            border-radius: 12px;
+            border: 2px solid #d4af37;
+            box-shadow: 0 8px 24px rgba(10, 77, 32, 0.12);
+        }
+
+        /* Header Styling */
+        .logo-container {
+            text-align: center;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #d4af37;
+            padding-bottom: 18px;
+            position: relative;
+        }
+
+        .logo-container img {
+            height: 80px;
+            width: auto;
+            display: block;
+            margin: 0 auto 10px auto;
+            border-radius: 8px;
+            border: 1.5px solid #d4af37;
+            padding: 6px;
+            background: #ffffff;
+            box-shadow: 0 0 12px rgba(212, 175, 55, 0.35);
+        }
+
+        .brand-title {
+            color: #073b18;
+            font-size: 28px;
+            font-weight: 700;
+            margin: 10px 0 4px 0;
+            text-align: center;
+            letter-spacing: 0.5px;
+        }
+
+        .brand-subtitle {
+            color: #4a5d4c;
+            font-size: 14px;
+            font-weight: 500;
+            margin: 0 0 4px 0;
+            text-align: center;
+            font-style: italic;
+        }
+
+        .brand-tagline {
+            color: #0d5225;
+            font-size: 13px;
+            font-weight: 600;
+            margin: 0 0 12px 0;
+            text-align: center;
+        }
+
+        .report-heading {
+            background: linear-gradient(135deg, #073b18 0%, #0a4d20 100%);
+            color: #f7e7a9;
+            font-size: 18px;
+            font-weight: bold;
+            padding: 10px;
+            border-radius: 6px;
+            margin-top: 10px;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            border: 1px solid #d4af37;
+        }
+
+        .flex-row { display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 20px; }
+        .flex-col {
+            flex: 1;
+            min-width: 300px;
+            background: #fffdf8;
+            padding: 20px;
+            border: 1.5px solid #dcd3b2;
+            border-left: 5px solid #0a5223;
+            border-radius: 8px;
+        }
+        .flex-col h3 { color: #073b18; margin-top: 0; font-size: 16px; margin-bottom: 12px; font-weight: 700; }
+
+        .row { margin-bottom: 14px; }
+        label { font-size: 13px; font-weight: bold; display: block; margin-bottom: 4px; color: #073b18; }
+        input[type="text"], select {
+            width: 100%;
+            padding: 9px 11px;
+            border: 1.5px solid #d0c495;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 13px;
+            color: #1b261b;
+            background-color: #ffffff;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        input[type="text"]:focus, select:focus {
+            outline: none;
+            border-color: #0a5223;
+            box-shadow: 0 0 6px rgba(10, 82, 35, 0.25);
+        }
+
+        .search-btn {
+            padding: 8px 14px;
+            cursor: pointer;
+            background: linear-gradient(180deg, #0a5223 0%, #053315 100%);
+            color: #fff1b8;
+            border: 1px solid #d4af37;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 12.5px;
+            transition: all 0.2s ease;
+        }
+        .search-btn:hover {
+            background: linear-gradient(180deg, #0d612a 0%, #07421b 100%);
+            color: #ffffff;
+            box-shadow: 0 0 8px rgba(212, 175, 55, 0.4);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 14px;
+            font-weight: bold;
+            margin-top: 15px;
+            background: linear-gradient(180deg, #0a5223 0%, #053315 100%);
+            color: #fff1b8;
+            border: 1px solid #d4af37;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 15px;
+            letter-spacing: 0.6px;
+            text-transform: uppercase;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            transition: all 0.25s ease;
+        }
+        .submit-btn:hover {
+            background: linear-gradient(180deg, #0d612a 0%, #07421b 100%);
+            color: #ffffff;
+            box-shadow: 0 6px 14px rgba(212, 175, 55, 0.4);
+            border-color: #fce897;
+        }
+
+        .search-box { position: relative; }
+        .results-list { border: 1px solid #dcd3b2; max-height: 120px; overflow-y: auto; display: none; background: #fff; position: absolute; z-index: 1000; width: 100%; box-shadow: 0 4px 10px rgba(0,0,0,0.1); border-radius: 4px; }
+        .results-list div { padding: 6px 10px; cursor: pointer; font-size: 12px; color: #1b261b; }
+        .results-list div:hover { background: #fffdf2; color: #073b18; font-weight: bold; }
+
+        /* Section Headings in Green */
+        h2 {
+            color: #073b18;
+            border-bottom: 2px solid #d4af37;
+            padding-bottom: 6px;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-size: 19px;
+            font-weight: 700;
+        }
+
+        /* Tables & Column Headers in Forest Green */
+        table { width: 100%; border-collapse: collapse; margin-bottom: 22px; background: #ffffff; }
+        th { background-color: #073b18; color: #f7e7a9; padding: 10px 12px; text-align: left; font-size: 13.5px; font-weight: bold; border: 1px solid #073b18; }
+        td { border: 1px solid #dcd3b2; padding: 9px 12px; text-align: left; font-size: 12.5px; color: #1b261b; }
+        tr:nth-child(even) { background-color: #fcfbdf; }
+
+        /* Chart Tables */
+        .charts-wrapper { display: flex; gap: 18px; margin: 15px 0; }
+        .chart-box { flex: 1; }
+        .chart-box h4 { text-align: center; color: #073b18; margin: 0 0 6px 0; font-size: 14px; font-weight: bold; }
+        .chart-table { width: 100%; border-collapse: collapse; border: 2px solid #073b18; table-layout: fixed; background: #fff; }
+        .chart-table td { border: 1px solid #073b18; height: 58px; vertical-align: top; padding: 4px; font-size: 9.5px; box-sizing: border-box; color: #1b261b; position: relative; }
+        .chart-table .center-box { background-color: #fcf9de; text-align: center; vertical-align: middle; font-weight: bold; color: #073b18; font-size: 12px; }
+
+        /* Birth Chart Tags */
+        .planet-tag { color: #073b18; font-weight: bold; font-size: 9.5px; display: block; line-height: 1.15; }
+        .lagna-tag { color: #d35400; font-weight: 900; font-size: 11px; font-family: 'Arial Black', Gadget, sans-serif; display: block; line-height: 1.1; text-transform: uppercase; letter-spacing: 0.5px; }
+
+        .status-badge { display: inline-block; padding: 4px 8px; border-radius: 4px; color: white; font-weight: bold; font-size: 11px; }
+        .badge-success { background-color: #1b5e20; }
+        .badge-danger { background-color: #b71c1c; }
+        .badge-warning { background-color: #f39c12; }
+
+        /* Recommendation & Summary Cards */
+        .summary-card {
+            padding: 18px;
+            border-radius: 8px;
+            background-color: #fdfce8;
+            border: 2px solid #d4af37;
+            border-left: 6px solid #0a5223;
+            color: #1b261b;
+            margin: 20px 0;
+        }
+        .summary-card h3 { color: #073b18; font-size: 16px; font-weight: bold; margin-top: 0; margin-bottom: 8px; }
+        .summary-card p { color: #1b261b; font-size: 13.5px; margin-bottom: 0; line-height: 1.6; font-weight: 500; }
+
+        .btn-group { display: flex; justify-content: center; gap: 15px; margin-top: 35px; }
+        .action-btn {
+            display: inline-block;
+            background: linear-gradient(180deg, #0a5223 0%, #053315 100%);
+            color: #fff1b8;
+            padding: 13px 26px;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 8px;
+            border: 1px solid #d4af37;
+            cursor: pointer;
+            font-size: 14px;
+            text-align: center;
+            text-transform: uppercase;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            transition: all 0.25s ease;
+        }
+        .action-btn:hover {
+            background: linear-gradient(180deg, #0d612a 0%, #07421b 100%);
+            color: #ffffff;
+            box-shadow: 0 6px 14px rgba(212, 175, 55, 0.4);
+            border-color: #fce897;
+        }
+
+        /* PRINT OPTIMIZATION & CLEAN PAGE BREAKS */
+        @media print {
+            .btn-group, form, .nav-link { display: none !important; }
+            body { padding: 0 !important; margin: 0 !important; background-color: #fff !important; color: #1b261b !important; background-image: none !important; }
+            .container { box-shadow: none !important; border: none !important; width: 100% !important; max-width: 100% !important; padding: 0 !important; }
+
+            .page-break-section { page-break-before: always !important; break-before: page !important; }
+            .section-block { page-break-inside: auto !important; break-inside: auto !important; }
+            .charts-wrapper, table, .summary-card { page-break-inside: avoid !important; break-inside: avoid !important; }
+
+            .logo-container { margin-bottom: 12px !important; padding-bottom: 8px !important; }
+            .logo-container img { height: 60px !important; }
+            .brand-title { font-size: 20px !important; color: #073b18 !important; }
+            .brand-subtitle, .brand-tagline { font-size: 11px !important; }
+            .report-heading { font-size: 15px !important; margin-top: 4px !important; background: #073b18 !important; color: #f7e7a9 !important; -webkit-print-color-adjust: exact; }
+
+            h2 { margin-top: 15px !important; margin-bottom: 10px !important; font-size: 15px !important; color: #073b18 !important; border-bottom: 1.5pt solid #d4af37 !important; }
+            th { background-color: #073b18 !important; color: #f7e7a9 !important; border: 1px solid #073b18 !important; -webkit-print-color-adjust: exact; font-size: 12px !important; padding: 6px 8px !important; }
+            td { font-size: 11px !important; color: #1b261b !important; padding: 6px 8px !important; }
+
+            .chart-table td { height: 42px !important; padding: 3px !important; border: 1pt solid #073b18 !important; }
+            .summary-card { background-color: #fffdf2 !important; border: 1.5px solid #d4af37 !important; border-left: 5px solid #0a5223 !important; -webkit-print-color-adjust: exact; padding: 12px !important; }
+            .summary-card h3 { color: #073b18 !important; }
+            .summary-card p { color: #1b261b !important; }
+            .planet-tag { color: #073b18 !important; -webkit-print-color-adjust: exact; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="logo-container">
+        <img src="/static/emblem.jpg" alt="Emblem" id="brandLogo">
+        <div class="brand-title">Vidhu Astro Prediction</div>
+        <div class="brand-subtitle">Where Traditional Astrology Meets Vidhu’s AI Intelligence</div>
+        <div class="brand-tagline">— Powered by Vidhu Kutty</div>
+        <div class="report-heading">
+            {% if lang == 'Tamil' %}
+                ஜாதகப் பொருத்த அறிக்கை (BIRTH CHART MATCHING REPORT)
+            {% else %}
+                HOROSCOPE MATCHING BY BIRTH CHART REPORT
+            {% endif %}
+        </div>
+    </div>
+
+    {% if error %}
+        <p style="color:#b71c1c; font-weight: bold; text-align: center; background-color: #ffebee; padding: 10px; border-radius: 6px;">Error: {{ error }}</p>
+    {% endif %}
+
+    <form action="/chart_matching" method="POST">
+        <div style="margin-bottom: 15px; width: 220px;">
+            <label for="chartLanguageSelect">Report Language / மொழி:</label>
+            <select id="chartLanguageSelect" name="chart_language">
+                {% if form_data and form_data.chart_language == 'Tamil' %}
+                    <option value="English">English</option>
+                    <option value="Tamil" selected>தமிழ் (Tamil)</option>
+                {% else %}
+                    <option value="English" selected>English</option>
+                    <option value="Tamil">தமிழ் (Tamil)</option>
+                {% endif %}
+            </select>
+        </div>
+
+        <div class="flex-row">
+            <!-- Boy Details Input -->
+            <div class="flex-col">
+                <h3>👨 Boy's Birth Details (ஆண்)</h3>
+                <div class="row">
+                    <label for="boyNameInput">Name:</label>
+                    <input type="text" id="boyNameInput" name="boy_name" value="{{ boy_name if boy_name else (form_data.boy_name if form_data else '') }}" required>
+                </div>
+                <div class="row">
+                    <label>DOB:</label>
+                    <div style="display: flex; gap: 5px;">
+                        <select id="boyDobDaySelect" name="boy_dob_day" aria-label="Boy DOB Day">
+                            {% for d in range(1, 32) %}
+                                {% set val = "%02d"|format(d) %}
+                                {% if form_data and val == form_data.boy_dob_day %}
+                                    <option value="{{ val }}" selected>{{ d }}</option>
+                                {% else %}
+                                    <option value="{{ val }}">{{ d }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                        <select id="boyDobMonthSelect" name="boy_dob_month" aria-label="Boy DOB Month">
+                            {% set months = [('01','Jan'), ('02','Feb'), ('03','Mar'), ('04','Apr'), ('05','May'), ('06','Jun'), ('07','Jul'), ('08','Aug'), ('09','Sep'), ('10','Oct'), ('11','Nov'), ('12','Dec')] %}
+                            {% for m_code, m_name in months %}
+                                {% if form_data and m_code == form_data.boy_dob_month %}
+                                    <option value="{{ m_code }}" selected>{{ m_name }}</option>
+                                {% else %}
+                                    <option value="{{ m_code }}">{{ m_name }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                        <select id="boyDobYearSelect" name="boy_dob_year" aria-label="Boy DOB Year">
+                            {% for y in range(1940, 2031) %}
+                                {% set y_str = y|string %}
+                                {% if form_data and y_str == form_data.boy_dob_year %}
+                                    <option value="{{ y_str }}" selected>{{ y }}</option>
+                                {% else %}
+                                    <option value="{{ y_str }}">{{ y }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <label>TOB:</label>
+                    <div style="display: flex; gap: 5px;">
+                        <select id="boyTobHourSelect" name="boy_tob_hour" aria-label="Boy TOB Hour">
+                            {% for h in range(1, 13) %}
+                                {% set h_str = "%02d"|format(h) %}
+                                {% if form_data and h_str == form_data.boy_tob_hour %}
+                                    <option value="{{ h_str }}" selected>{{ h }}</option>
+                                {% else %}
+                                    <option value="{{ h_str }}">{{ h }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                        <select id="boyTobMinSelect" name="boy_tob_minute" aria-label="Boy TOB Minute">
+                            {% for m in range(0, 60) %}
+                                {% set m_str = "%02d"|format(m) %}
+                                {% if form_data and m_str == form_data.boy_tob_minute %}
+                                    <option value="{{ m_str }}" selected>{{ m }}</option>
+                                {% else %}
+                                    <option value="{{ m_str }}">{{ m }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                        <select id="boyTobAmpmSelect" name="boy_tob_ampm" aria-label="Boy TOB AM/PM">
+                            {% if form_data and form_data.boy_tob_ampm == 'PM' %}
+                                <option value="AM">AM</option>
+                                <option value="PM" selected>PM</option>
+                            {% else %}
+                                <option value="AM" selected>AM</option>
+                                <option value="PM">PM</option>
+                            {% endif %}
+                        </select>
+                    </div>
+                </div>
+                <div class="row search-box">
+                    <label for="boyPlace">Place:</label>
+                    <div style="display: flex; gap: 5px;">
+                        <input type="text" id="boyPlace" name="boy_place" value="{{ form_data.boy_place if form_data else 'Chennai' }}" placeholder="City name">
+                        <button type="button" class="search-btn" onclick="searchPlace('boy')">Search</button>
+                    </div>
+                    <div id="boyResults" class="results-list"></div>
+                </div>
+                <input type="hidden" id="boyLat" name="boy_latitude" value="{{ form_data.boy_latitude if form_data else '13.0827' }}">
+                <input type="hidden" id="boyLon" name="boy_longitude" value="{{ form_data.boy_longitude if form_data else '80.2707' }}">
+            </div>
+
+            <!-- Girl Details Input -->
+            <div class="flex-col">
+                <h3>👩 Girl's Birth Details (பெண்)</h3>
+                <div class="row">
+                    <label for="girlNameInput">Name:</label>
+                    <input type="text" id="girlNameInput" name="girl_name" value="{{ girl_name if girl_name else (form_data.girl_name if form_data else '') }}" required>
+                </div>
+                <div class="row">
+                    <label>DOB:</label>
+                    <div style="display: flex; gap: 5px;">
+                        <select id="girlDobDaySelect" name="girl_dob_day" aria-label="Girl DOB Day">
+                            {% for d in range(1, 32) %}
+                                {% set val = "%02d"|format(d) %}
+                                {% if form_data and val == form_data.girl_dob_day %}
+                                    <option value="{{ val }}" selected>{{ d }}</option>
+                                {% else %}
+                                    <option value="{{ val }}">{{ d }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                        <select id="girlDobMonthSelect" name="girl_dob_month" aria-label="Girl DOB Month">
+                            {% set months = [('01','Jan'), ('02','Feb'), ('03','Mar'), ('04','Apr'), ('05','May'), ('06','Jun'), ('07','Jul'), ('08','Aug'), ('09','Sep'), ('10','Oct'), ('11','Nov'), ('12','Dec')] %}
+                            {% for m_code, m_name in months %}
+                                {% if form_data and m_code == form_data.girl_dob_month %}
+                                    <option value="{{ m_code }}" selected>{{ m_name }}</option>
+                                {% else %}
+                                    <option value="{{ m_code }}">{{ m_name }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                        <select id="girlDobYearSelect" name="girl_dob_year" aria-label="Girl DOB Year">
+                            {% for y in range(1940, 2031) %}
+                                {% set y_str = y|string %}
+                                {% if form_data and y_str == form_data.girl_dob_year %}
+                                    <option value="{{ y_str }}" selected>{{ y }}</option>
+                                {% else %}
+                                    <option value="{{ y_str }}">{{ y }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <label>TOB:</label>
+                    <div style="display: flex; gap: 5px;">
+                        <select id="girlTobHourSelect" name="girl_tob_hour" aria-label="Girl TOB Hour">
+                            {% for h in range(1, 13) %}
+                                {% set h_str = "%02d"|format(h) %}
+                                {% if form_data and h_str == form_data.girl_tob_hour %}
+                                    <option value="{{ h_str }}" selected>{{ h }}</option>
+                                {% else %}
+                                    <option value="{{ h_str }}">{{ h }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                        <select id="girlTobMinSelect" name="girl_tob_minute" aria-label="Girl TOB Minute">
+                            {% for m in range(0, 60) %}
+                                {% set m_str = "%02d"|format(m) %}
+                                {% if form_data and m_str == form_data.girl_tob_minute %}
+                                    <option value="{{ m_str }}" selected>{{ m }}</option>
+                                {% else %}
+                                    <option value="{{ m_str }}">{{ m }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                        <select id="girlTobAmpmSelect" name="girl_tob_ampm" aria-label="Girl TOB AM/PM">
+                            {% if form_data and form_data.girl_tob_ampm == 'PM' %}
+                                <option value="AM">AM</option>
+                                <option value="PM" selected>PM</option>
+                            {% else %}
+                                <option value="AM" selected>AM</option>
+                                <option value="PM">PM</option>
+                            {% endif %}
+                        </select>
+                    </div>
+                </div>
+                <div class="row search-box">
+                    <label for="girlPlace">Place:</label>
+                    <div style="display: flex; gap: 5px;">
+                        <input type="text" id="girlPlace" name="girl_place" value="{{ form_data.girl_place if form_data else 'Chennai' }}" placeholder="City name">
+                        <button type="button" class="search-btn" onclick="searchPlace('girl')">Search</button>
+                    </div>
+                    <div id="girlResults" class="results-list"></div>
+                </div>
+                <input type="hidden" id="girlLat" name="girl_latitude" value="{{ form_data.girl_latitude if form_data else '13.0827' }}">
+                <input type="hidden" id="girlLon" name="girl_longitude" value="{{ form_data.girl_longitude if form_data else '80.2707' }}">
+            </div>
+        </div>
+
+        <button type="submit" class="submit-btn">Compare Full Birth Charts</button>
+    </form>
+
+    {% if report and boy_chart and girl_chart %}
+    <!-- PAGE 1: CHARTS & BASIC DETAILS -->
+    <div class="section-block">
+        <h2>1. Horoscope Matching by Birth Chart</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Detail Field</th>
+                    <th>Boy's Birth Detail</th>
+                    <th>Girl's Birth Detail</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Name</strong></td>
+                    <td><strong>{{ boy_name if boy_name else (form_data.boy_name if form_data and form_data.boy_name else (report.boy_name if report and report.boy_name else (boy_chart._meta.person_name if boy_chart._meta is defined else 'Groom'))) }}</strong></td>
+                    <td><strong>{{ girl_name if girl_name else (form_data.girl_name if form_data and form_data.girl_name else (report.girl_name if report and report.girl_name else (girl_chart._meta.person_name if girl_chart._meta is defined else 'Bride'))) }}</strong></td>
+                </tr>
+                <tr>
+                    <td><strong>Date of Birth (DOB)</strong></td>
+                    <td>{{ boy_chart._meta.dob if boy_chart._meta is defined else '' }}</td>
+                    <td>{{ girl_chart._meta.dob if girl_chart._meta is defined else '' }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Time of Birth (TOB)</strong></td>
+                    <td>{{ boy_chart._meta.tob if boy_chart._meta is defined else '' }}</td>
+                    <td>{{ girl_chart._meta.tob if girl_chart._meta is defined else '' }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Place of Birth</strong></td>
+                    <td>{{ boy_chart._meta.place if boy_chart._meta is defined else '' }}</td>
+                    <td>{{ girl_chart._meta.place if girl_chart._meta is defined else '' }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Rasi (Moon Sign) & Lord</strong></td>
+                    <td>{{ boy_chart.panchangam.rasi if boy_chart.panchangam is defined else '' }}</td>
+                    <td>{{ girl_chart.panchangam.rasi if girl_chart.panchangam is defined else '' }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Nakshatra & Nakshatra Lord</strong></td>
+                    <td>{{ boy_chart.panchangam.nakshatra if boy_chart.panchangam is defined else '' }}</td>
+                    <td>{{ girl_chart.panchangam.nakshatra if girl_chart.panchangam is defined else '' }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Gana</strong></td>
+                    <td>{{ boy_chart.planets.Moon.meta.gana if boy_chart.planets is defined and boy_chart.planets.Moon is defined else '' }}</td>
+                    <td>{{ girl_chart.planets.Moon.meta.gana if girl_chart.planets is defined and girl_chart.planets.Moon is defined else '' }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Boy Charts -->
+        <h3 style="color:#073b18; margin-top:18px; margin-bottom:8px; font-weight: 700;">
+            Boy's Birth Charts ({{ boy_name if boy_name else (form_data.boy_name if form_data and form_data.boy_name else (boy_chart._meta.person_name if boy_chart._meta is defined else 'Groom')) }})
+        </h3>
+        <div class="charts-wrapper">
+            <div class="chart-box">
+                <h4>Boy Rasi (D1)</h4>
+                <table class="chart-table">
+                    <tr>
+                        <td>{% if boy_chart.planets is defined %}{% for p, d in boy_chart.planets.items() %}{% if d.rasi_idx == 11 %}{% if p == 'Lagna' %}<span class="lagna-tag">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p }}</span>{% endif %}{% endif %}{% endfor %}{% endif %}</td>
+                        <td>{% if boy_chart.planets is defined %}{% for p, d in boy_chart.planets.items() %}{% if d.rasi_idx == 0 %}{% if p == 'Lagna' %}<span class="lagna-tag">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p }}</span>{% endif %}{% endif %}{% endfor %}{% endif %}</td>
+                        <td>{% if boy_chart.planets is defined %}{% for p, d in boy_chart.planets.items() %}{% if d.rasi_idx == 1 %}{% if p == 'Lagna' %}<span class="lagna-tag">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p }}</span>{% endif %}{% endif %}{% endfor %}{% endif %}</td>
+                        <td>{% if boy_chart.planets is defined %}{% for p, d in boy_chart.planets.items() %}{% if d.rasi_idx == 2 %}{% if p == 'Lagna' %}<span class="lagna-tag">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p }}</span>{% endif %}{% endif %}{% endfor %}{% endif %}</td>
+                    </tr>
+                    <tr>
+                        <td>{% if boy_chart.planets is defined %}{% for p, d in boy_chart.planets.items() %}{% if d.rasi_idx == 10 %}{% if p == 'Lagna' %}<span class="lagna-tag">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p }}</span>{% endif %}{% endif %}{% endfor %}{% endif %}</td>
+                        <td colspan="2" rowspan="2" class="center-box">BOY RASI</td>
+                        <td>{% if boy_chart.planets is defined %}{% for p, d in boy_chart.planets.items() %}{% if d.rasi_idx == 3 %}{% if p == 'Lagna' %}<span class="lagna-tag">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p }}</span>{% endif %}{% endif %}{% endfor %}{% endif %}</td>
+                    </tr>
+                    <tr>
+                        <td>{% if boy_chart.planets is defined %}{% for p, d in boy_chart.planets.items() %}{% if d.rasi_idx == 9 %}{% if p == 'Lagna' %}<span class="lagna-tag">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p }}</span>{% endif %}{% endif %}{% endfor %}{% endif %}</td>
+                        <td>{% if boy_chart.planets is defined %}{% for p, d in boy_chart.planets.items() %}{% if d.rasi_idx == 4 %}{% if p == 'Lagna' %}<span class="lagna-tag">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p }}</span>{% endif %}{% endif %}{% endfor %}{% endif %}</td>
+                    </tr>
+                    <tr>
+                        <td>{% if boy_chart.planets is defined %}{% for p, d in boy_chart.planets.items() %}{% if d.rasi_idx == 8 %}{% if p == 'Lagna' %}<span class="lagna-tag">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p }}</span>{% endif %}{% endif %}{% endfor %}{% endif %}</td>
+                        <td>{% if boy_chart.planets is defined %}{% for p, d in boy_chart.planets.items() %}{% if d.rasi_idx == 7 %}{% if p == 'Lagna' %}<span class="lagna-tag">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p }}</span>{% endif %}{% endif %}{% endfor %}{% endif %}</td>
+                        <td>{% if boy_chart.planets is defined %}{% for p, d in boy_chart.planets.items() %}{% if d.rasi_idx == 6 %}{% if p == 'Lagna' %}<span class="lagna-tag">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p }}</span>{% endif %}{% endif %}{% endfor %}{% endif %}</td>
+                        <td>{% if boy_chart.planets is defined %}{% for p, d in boy_chart.planets.items() %}{% if d.rasi_idx == 5 %}{% if p == 'Lagna' %}<span class="lagna-tag">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p }}</span>{% endif %}{% endif %}{% endfor %}{% endif %}</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="chart-box">
+                <h4>Boy Navamsa (D9)</h4>
+                <table class="chart-table">
+                    <tr>
+                        <td>{% if boy_chart.planets is defined %}{% for p, d in boy_chart.planets.items() %}{% if d.navamsa == 'Meena' %}{% if p == 'Lagna' %}<span class="lagna-tag">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p }}</span>{% endif %}{% endif %}{% endfor %}{% endif %}</td>
+                        <td>{% if boy_chart.planets is defined %}{% for p, d in boy_chart.planets.items() %}{% if d.navamsa == 'Mesha' %}{% if p == 'Lagna' %}<span class="lagna-tag">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p }}</span>{% endif %}{% endif %}{% endfor %}{% endif %}</td>
+                        <td>{% if boy_chart.planets is defined %}{% for p, d in boy_chart.planets.items() %}{% if d.navamsa == 'Rishaba' %}{% if p == 'Lagna' %}<span class="lagna-tag">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p }}</span>{% endif %}{% endif %}{% endfor %}{% endif %}</td>
+                        <td>{% if boy_chart.planets is defined %}{% for p, d in boy_chart.planets.items() %}{% if d.navamsa == 'Mithuna' %}{% if p == 'Lagna' %}<span class="lagna-tag">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p }}</span>{% endif %}{% endif %}{% endfor %}{% endif %}</td>
+                    </tr>
+                    <tr>
+                        <td>{% if boy_chart.planets is defined %}{% for p, d in boy_chart.planets.items() %}{% if d.navamsa == 'Kumbha' %}{% if p == 'Lagna' %}<span class="lagna-tag">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p }}</span>{% endif %}{% endif %}{% endfor %}{% endif %}</td>
+                        <td colspan="2" rowspan="2" class="center-box">BOY D9</td>
+                        <td>{% if boy_chart.planets is defined %}{% for p, d in boy_chart.planets.items() %}{% if d.navamsa == 'Kataka' %}{% if p == 'Lagna' %}<span class="lagna-tag">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p }}</span>{% endif %}{% endif %}{% endfor %}{% endif %}</td>
+                    </tr>
+                    <tr>
+                        <td>{% if boy_chart.planets is defined %}{% for p, d in boy_chart.planets.items() %}{% if d.navamsa == 'Makara' %}{% if p == 'Lagna' %}<span class="lagna-tag">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p }}</span>{% endif %}{% endif %}{% endfor %}{% endif %}</td>
+                        <td>{% if boy_chart.planets is defined %}{% for p, d in boy_chart.planets.items() %}{% if d.navamsa == 'Simha' %}{% if p == 'Lagna' %}<span class="lagna-tag">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p }}</span>{% endif %}{% endif %}{% endfor %}{% endif %}</td>
+                    </tr>
+                    <tr>
+                        <td>{% if boy_chart.planets is defined %}{% for p, d in boy_chart.planets.items() %}{% if d.navamsa == 'Dhanus' %}{% if p == 'Lagna' %}<span class="lagna-tag">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p }}</span>{% endif %}{% endif %}{% endfor %}{% endif %}</td>
+                        <td>{% if boy_chart.planets is defined %}{% for p, d in boy_chart.planets.items() %}{% if d.navamsa == 'Vrichika' %}{% if p == 'Lagna' %}<span class="lagna-tag">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p }}</span>{% endif %}{% endif %}{% endfor %}{% endif %}</td>
+                        <td>{% if boy_chart.planets is defined %}{% for p, d in boy_chart.planets.items() %}{% if d.navamsa == 'Tula' %}{% if p == 'Lagna' %}<span class="lagna-tag">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p }}</span>{% endif %}{% endif %}{% endfor %}{% endif %}</td>
+                        <td>{% if boy_chart.planets is defined %}{% for p, d in boy_chart.planets.items() %}{% if d.navamsa == 'Kanya' %}{% if p == 'Lagna' %}<span class="lagna-tag">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p }}</span>{% endif %}{% endif %}{% endfor %}{% endif %}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- Girl Charts -->
+        <h3 style="color:#073b18; margin-top:18px; margin-bottom:8px; font-weight: 700;">
+            Girl's Birth Charts ({{ girl_name if girl_name else (form_data.girl_name if form_data and form_data.girl_name else (girl_chart._meta.person_name if girl_chart._meta is defined else 'Bride')) }})
+        </h3>
+        <div class="charts-wrapper">
+            <div class="chart-box">
+                <h4>Girl Rasi (D1)</h4>
+                <table class="chart-table">
+                    <tr>
+                        <td>{% if girl_chart.planets is defined %}{% for p, d in girl_chart.planets.items() %}{% if d.rasi_idx == 11 %}{% if p == 'Lagna' %}<span class="lagna-tag">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p }}</span>{% endif %}{% endif %}{% endfor %}{% endif %}</td>
+                        <td>{% if girl_chart.planets is defined %}{% for p, d in girl_chart.planets.items() %}{% if d.rasi_idx == 0 %}{% if p == 'Lagna' %}<span class="lagna-tag">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p }}</span>{% endif %}{% endif %}{% endfor %}{% endif %}</td>
+                        <td>{% if girl_chart.planets is defined %}{% for p, d in girl_chart.planets.items() %}{% if d.rasi_idx == 1 %}{% if p == 'Lagna' %}<span class="lagna-tag">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p }}</span>{% endif %}{% endif %}{% endfor %}{% endif %}</td>
+                        <td>{% if girl_chart.planets is defined %}{% for p, d in girl_chart.planets.items() %}{% if d.rasi_idx == 2 %}{% if p == 'Lagna' %}<span class="lagna-tag">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p }}</span>{% endif %}{% endif %}{% endfor %}{% endif %}</td>
+                    </tr>
+                    <tr>
+                        <td>{% if girl_chart.planets is defined %}{% for p, d in girl_chart.planets.items() %}{% if d.rasi_idx == 10 %}{% if p == 'Lagna' %}<span class="lagna-tag">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p }}</span>{% endif %}{% endif %}{% endfor %}{% endif %}</td>
+                        <td colspan="2" rowspan="2" class="center-box">GIRL RASI</td>
+                        <td>{% if girl_chart.planets is defined %}{% for p, d in girl_chart.planets.items() %}{% if d.rasi_idx == 3 %}{% if p == 'Lagna' %}<span class="lagna-tag">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p }}</span>{% endif %}{% endif %}{% endfor %}{% endif %}</td>
+                    </tr>
+                    <tr>
+                        <td>{% if girl_chart.planets is defined %}{% for p, d in girl_chart.planets.items() %}{% if d.rasi_idx == 9 %}{% if p == 'Lagna' %}<span class="lagna-tag">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p }}</span>{% endif %}{% endif %}{% endfor %}{% endif %}</td>
+                        <td>{% if girl_chart.planets is defined %}{% for p, d in girl_chart.planets.items() %}{% if d.rasi_idx == 4 %}{% if p == 'Lagna' %}<span class="lagna-tag">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p }}</span>{% endif %}{% endif %}{% endfor %}{% endif %}</td>
+                    </tr>
+                    <tr>
+                        <td>{% if girl_chart.planets is defined %}{% for p, d in girl_chart.planets.items() %}{% if d.rasi_idx == 8 %}{% if p == 'Lagna' %}<span class="lagna-tag">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p }}</span>{% endif %}{% endif %}{% endfor %}{% endif %}</td>
+                        <td>{% if girl_chart.planets is defined %}{% for p, d in girl_chart.planets.items() %}{% if d.rasi_idx == 7 %}{% if p == 'Lagna' %}<span class="lagna-tag">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p }}</span>{% endif %}{% endif %}{% endfor %}{% endif %}</td>
+                        <td>{% if girl_chart.planets is defined %}{% for p, d in girl_chart.planets.items() %}{% if d.rasi_idx == 6 %}{% if p == 'Lagna' %}<span class="lagna-tag">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p }}</span>{% endif %}{% endif %}{% endfor %}{% endif %}</td>
+                        <td>{% if girl_chart.planets is defined %}{% for p, d in girl_chart.planets.items() %}{% if d.rasi_idx == 5 %}{% if p == 'Lagna' %}<span class="lagna-tag">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p }}</span>{% endif %}{% endif %}{% endfor %}{% endif %}</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="chart-box">
+                <h4>Girl Navamsa (D9)</h4>
+                <table class="chart-table">
+                    <tr>
+                        <td>{% if girl_chart.planets is defined %}{% for p, d in girl_chart.planets.items() %}{% if d.navamsa == 'Meena' %}{% if p == 'Lagna' %}<span class="lagna-tag">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p }}</span>{% endif %}{% endif %}{% endfor %}{% endif %}</td>
+                        <td>{% if girl_chart.planets is defined %}{% for p, d in girl_chart.planets.items() %}{% if d.navamsa == 'Mesha' %}{% if p == 'Lagna' %}<span class="lagna-tag">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p }}</span>{% endif %}{% endif %}{% endfor %}{% endif %}</td>
+                        <td>{% if girl_chart.planets is defined %}{% for p, d in girl_chart.planets.items() %}{% if d.navamsa == 'Rishaba' %}{% if p == 'Lagna' %}<span class="lagna-tag">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p }}</span>{% endif %}{% endif %}{% endfor %}{% endif %}</td>
+                        <td>{% if girl_chart.planets is defined %}{% for p, d in girl_chart.planets.items() %}{% if d.navamsa == 'Mithuna' %}{% if p == 'Lagna' %}<span class="lagna-tag">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p }}</span>{% endif %}{% endif %}{% endfor %}{% endif %}</td>
+                    </tr>
+                    <tr>
+                        <td>{% if girl_chart.planets is defined %}{% for p, d in girl_chart.planets.items() %}{% if d.navamsa == 'Kumbha' %}{% if p == 'Lagna' %}<span class="lagna-tag">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p }}</span>{% endif %}{% endif %}{% endfor %}{% endif %}</td>
+                        <td colspan="2" rowspan="2" class="center-box">GIRL D9</td>
+                        <td>{% if girl_chart.planets is defined %}{% for p, d in girl_chart.planets.items() %}{% if d.navamsa == 'Kataka' %}{% if p == 'Lagna' %}<span class="lagna-tag">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p }}</span>{% endif %}{% endif %}{% endfor %}{% endif %}</td>
+                    </tr>
+                    <tr>
+                        <td>{% if girl_chart.planets is defined %}{% for p, d in girl_chart.planets.items() %}{% if d.navamsa == 'Makara' %}{% if p == 'Lagna' %}<span class="lagna-tag">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p }}</span>{% endif %}{% endif %}{% endfor %}{% endif %}</td>
+                        <td>{% if girl_chart.planets is defined %}{% for p, d in girl_chart.planets.items() %}{% if d.navamsa == 'Simha' %}{% if p == 'Lagna' %}<span class="lagna-tag">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p }}</span>{% endif %}{% endif %}{% endfor %}{% endif %}</td>
+                    </tr>
+                    <tr>
+                        <td>{% if girl_chart.planets is defined %}{% for p, d in girl_chart.planets.items() %}{% if d.navamsa == 'Dhanus' %}{% if p == 'Lagna' %}<span class="lagna-tag">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p }}</span>{% endif %}{% endif %}{% endfor %}{% endif %}</td>
+                        <td>{% if girl_chart.planets is defined %}{% for p, d in girl_chart.planets.items() %}{% if d.navamsa == 'Vrichika' %}{% if p == 'Lagna' %}<span class="lagna-tag">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p }}</span>{% endif %}{% endif %}{% endfor %}{% endif %}</td>
+                        <td>{% if girl_chart.planets is defined %}{% for p, d in girl_chart.planets.items() %}{% if d.navamsa == 'Tula' %}{% if p == 'Lagna' %}<span class="lagna-tag">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p }}</span>{% endif %}{% endif %}{% endfor %}{% endif %}</td>
+                        <td>{% if girl_chart.planets is defined %}{% for p, d in girl_chart.planets.items() %}{% if d.navamsa == 'Kanya' %}{% if p == 'Lagna' %}<span class="lagna-tag">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p }}</span>{% endif %}{% endif %}{% endfor %}{% endif %}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE 2: PORUTHAM, DOSHAS & DASHA SANDHI -->
+    <div class="section-block page-break-section">
+        <h2>2. Rasi & Nakshatra Compatibility (10 Porutham Score)</h2>
+        <div style="font-size: 15px; font-weight: bold; margin-bottom: 12px; color: #073b18;">
+            Overall Porutham Score: <span style="color: #073b18; font-size: 18px;">{{ report.porutham_score if report.porutham_score is defined else 'N/A' }}</span>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Porutham</th>
+                    <th>Girl's Detail</th>
+                    <th>Boy's Detail</th>
+                    <th>Result & Score</th>
+                    <th>Palan / Impact</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if report.porutham_details is defined %}
+                {% for p in report.porutham_details %}
+                <tr {% if p.mandatory %}style="font-weight: bold; background-color: #fdfce8;"{% endif %}>
+                    <td>
+                        {{ p.group }}
+                        {% if p.mandatory %}<span style="color:#b71c1c;" title="Mandatory Match">*</span>{% endif %}
+                    </td>
+                    <td>{{ p.girl }}</td>
+                    <td>{{ p.boy }}</td>
+                    <td>{{ p.result_text }} ({{ p.score }})</td>
+                    <td>{{ p.benefit }}</td>
+                </tr>
+                {% endfor %}
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="section-block">
+        <h2>3. Comprehensive Dosha & Dasha Sandhi Analysis</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Category</th>
+                    <th>Girl's Chart Status</th>
+                    <th>Boy's Chart Status</th>
+                    <th>Compatibility Verdict</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Chevvai / Kuja Dosham (Mars)</strong><br><small>(1, 2, 4, 7, 8, 12 from Lagna/Moon/Venus)</small></td>
+                    <td>
+                        {% if report.chevvai is defined and report.chevvai and report.chevvai.girl.has_dosha %}
+                            Present (House {{ report.chevvai.girl.from_lagna }} from Lagna)
+                        {% else %}
+                            Not Present
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if report.chevvai is defined and report.chevvai and report.chevvai.boy.has_dosha %}
+                            Present (House {{ report.chevvai.boy.from_lagna }} from Lagna)
+                        {% else %}
+                            Not Present
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if report.chevvai is defined and report.chevvai and report.chevvai.is_match %}
+                            <span class="status-badge badge-success">MATCHED (தோஷ சமநிலை உண்டு)</span>
+                        {% else %}
+                            <span class="status-badge badge-danger">NO MATCH (தோஷ சமநிலை இல்லை)</span>
+                        {% endif %}
+                    </td>
+                </tr>
+
+                <tr>
+                    <td><strong>Rahu-Ketu (Sarpa/Naga) Dosham</strong><br><small>(Rahu/Ketu in 1, 2, 5, 7, 8, 12 Houses)</small></td>
+                    <td>
+                        {% if report.sarpa is defined and report.sarpa and report.sarpa.girl.has_dosha %}
+                            Present (Rahu: {{ report.sarpa.girl.rahu_house }}, Ketu: {{ report.sarpa.girl.ketu_house }})
+                        {% else %}
+                            Not Present
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if report.sarpa is defined and report.sarpa and report.sarpa.boy.has_dosha %}
+                            Present (Rahu: {{ report.sarpa.boy.rahu_house }}, Ketu: {{ report.sarpa.boy.ketu_house }})
+                        {% else %}
+                            Not Present
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if report.sarpa is defined and report.sarpa and report.sarpa.is_match %}
+                            <span class="status-badge badge-success">MATCHED (தோஷ சமநிலை உண்டு)</span>
+                        {% else %}
+                            <span class="status-badge badge-danger">NO MATCH (தோஷ சமநிலை இல்லை)</span>
+                        {% endif %}
+                    </td>
+                </tr>
+
+                <tr>
+                    <td><strong>Dasha Sandhi & Period Analysis</strong><br><small>(Junction transition & simultaneous Dasa e.g. Rahu / Saturn)</small></td>
+                    <td>
+                        {% if report.dasa is defined and report.dasa and report.dasa.girl is defined and report.dasa.girl.current_dasa %}
+                            Current: <strong>{{ report.dasa.girl.current_dasa }}</strong>
+                            {% if report.dasa.girl.in_sandhi %}<br><span style="color:#b71c1c; font-weight:bold;">⚠️ In Dasha Sandhi</span>{% endif %}
+                        {% elif girl_chart is defined and girl_chart and girl_chart.dasa_remaining is defined %}
+                            Current: <strong>{{ girl_chart.dasa_remaining.split()[0] }} Dasa</strong>
+                        {% else %}
+                            Current: <strong>N/A</strong>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if report.dasa is defined and report.dasa and report.dasa.boy is defined and report.dasa.boy.current_dasa %}
+                            Current: <strong>{{ report.dasa.boy.current_dasa }}</strong>
+                            {% if report.dasa.boy.in_sandhi %}<br><span style="color:#b71c1c; font-weight:bold;">⚠️ In Dasha Sandhi</span>{% endif %}
+                        {% elif boy_chart is defined and boy_chart and boy_chart.dasa_remaining is defined %}
+                            Current: <strong>{{ boy_chart.dasa_remaining.split()[0] }} Dasa</strong>
+                        {% else %}
+                            Current: <strong>N/A</strong>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if report.dasa is defined and report.dasa and report.dasa.both_in_sandhi %}
+                            <span class="status-badge badge-danger">HIGH RISK (இருவருக்கும் தசா சந்தி)</span>
+                        {% elif report.dasa is defined and report.dasa and report.dasa.is_favorable %}
+                            <span class="status-badge badge-success">FAVORABLE (நன்றாக உள்ளது)</span>
+                        {% else %}
+                            <span class="status-badge badge-warning">MODERATE (மிதமான பலன்)</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Pitru / 5th House Progeny Check</strong><br><small>(Sun/Nodes in 5th House)</small></td>
+                    <td>{{ report.pitru.girl.details if report.pitru is defined and report.pitru.girl is defined else 'Clear' }}</td>
+                    <td>{{ report.pitru.boy.details if report.pitru is defined and report.pitru.boy is defined else 'Clear' }}</td>
+                    <td>
+                        {% if report.pitru is defined and (report.pitru.girl.has_dosha or report.pitru.boy.has_dosha) %}
+                            <span class="status-badge badge-warning">Remedies Suggested</span>
+                        {% else %}
+                            <span class="status-badge badge-success">Clear</span>
+                        {% endif %}
+                    </td>
+                </tr>
+
+                <tr>
+                    <td><strong>Ashtama Rasi / Shashtashtaka (6/8 Rule)</strong><br><small>(Moon sign distance check)</small></td>
+                    <td colspan="2">
+                        Boy Rasi is <strong>House {{ report.shashtashtaka.count if report.shashtashtaka is defined else 1 }}</strong> from Girl's Moon Sign.
+                        {% if report.shashtashtaka is defined and report.shashtashtaka.cancelled %} (Exempted due to shared ruling planet){% endif %}
+                    </td>
+                    <td>
+                        {% if report.shashtashtaka is defined and report.shashtashtaka.harmful %}
+                            <span class="status-badge badge-danger">6/8 DOSHAM (தவிர்க்கவும்)</span>
+                        {% else %}
+                            <span class="status-badge badge-success">CLEAR / CANCELLED</span>
+                        {% endif %}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- DETAILED DASHA SANDHI GUIDANCE CARD -->
+    <div class="summary-card">
+        <h3>📌 Dasha Sandhi & Timing Guidance for Marriage</h3>
+        <p>
+            <strong>What is Dasha Sandhi?</strong> Dasha Sandhi is the transition window between two major planetary periods (Mahadashas). During this transition, energy shifts significantly, which can create uncertainty or adjustments in personal and marital life.<br>
+            <strong>Key Timing Rule:</strong> Avoid finalizing wedding ceremonies during active peak Dasha Sandhi windows (especially intense transitions like <em>Mars-Rahu</em>, <em>Ketu-Venus</em>, <em>Saturn-Mercury</em>, or <em>Moon-Mars</em>).<br>
+            <strong>Vedic Remedies:</strong> Perform daily recitation of <strong>Maha Mrityunjaya Mantra</strong> and <strong>Hanuman Chalisa</strong>, offer specific prayers to outgoing/incoming planetary lords, and select a strongly auspicious <em>Shubha Muhurtham</em> for marriage.
+        </p>
+    </div>
+
+    <div class="section-block">
+        <h2>4. Overall Compatibility Synthesis</h2>
+        <div class="summary-card">
+            <h3 style="color: {{ report.status_color if report.status_color is defined else '#073b18' }};">VERDICT: {{ report.overall_status if report.overall_status is defined else 'N/A' }}</h3>
+            <p>{{ report.overall_summary if report.overall_summary is defined else '' }}</p>
+        </div>
+    </div>
+
+    <div class="btn-group">
+        <button type="button" onclick="window.print()" class="action-btn">Download / Print Report PDF</button>
+    </div>
+    {% endif %}
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const img = document.getElementById('brandLogo');
+    if (img) {
+        img.onerror = function() {
+            this.style.display = 'none';
+        };
+    }
+});
+
+function searchPlace(prefix) {
+    const input = document.getElementById(prefix + 'Place').value.trim();
+    const list = document.getElementById(prefix + 'Results');
+
+    if (input.length < 2) return alert('Enter at least 2 characters');
+
+    fetch('https://nominatim.openstreetmap.org/search?format=json&q=' + encodeURIComponent(input))
+        .then(res => {
+            if (!res.ok) throw new Error('API Request Failed');
+            return res.json();
+        })
+        .then(data => {
+            list.innerHTML = '';
+            if (!data || !data.length) return alert('No locations found');
+            list.style.display = 'block';
+
+            data.slice(0, 5).forEach(item => {
+                const div = document.createElement('div');
+                div.innerText = item.display_name;
+                div.onclick = function() {
+                    document.getElementById(prefix + 'Place').value = item.display_name.split(',')[0];
+                    document.getElementById(prefix + 'Lat').value = item.lat;
+                    document.getElementById(prefix + 'Lon').value = item.lon;
+                    list.style.display = 'none';
+                };
+                list.appendChild(div);
+            });
+        })
+        .catch(() => alert('Location search failed. Please type city name manually.'));
+}
+</script>
+
+</body>
+</html>

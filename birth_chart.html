@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Birth Chart Report - Vidhu Astro Prediction</title>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Georgia&family=Noto+Sans+Tamil:wght@400;600;700&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Georgia', 'Noto Sans Tamil', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #fffdf2;
+            color: #2c3e2e;
+            padding: 18px 14px;
+            font-size: 13.5px;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 980px;
+            margin: auto;
+            background: #ffffff;
+            padding: 24px 22px;
+            border-radius: 12px;
+            border: 2px solid #d4af37;
+            box-shadow: 0 6px 20px rgba(10, 77, 32, 0.12);
+        }
+
+        /* Centered Header Emblem Box */
+        .logo-container {
+            text-align: center;
+            margin-bottom: 14px;
+            border-bottom: 2px solid #d4af37;
+            padding-bottom: 12px;
+        }
+
+        .logo-container img.emblem-img {
+            width: 210px;
+            height: auto;
+            border-radius: 8px;
+            border: 1.5px solid #d4af37;
+            padding: 4px 6px;
+            background: #ffffff;
+            box-shadow: 0 0 14px rgba(212, 175, 55, 0.35);
+            display: inline-block;
+            margin-bottom: 8px;
+        }
+
+        .brand-title {
+            color: #073b18;
+            font-size: 24px;
+            font-weight: 700;
+            margin: 4px 0 2px 0;
+            letter-spacing: 0.5px;
+        }
+
+        .brand-subtitle {
+            color: #4a5d4c;
+            font-size: 13px;
+            font-weight: 500;
+            font-style: italic;
+        }
+
+        .brand-tagline {
+            color: #0d5225;
+            font-size: 12px;
+            font-weight: 600;
+            margin: 0 0 8px 0;
+        }
+
+        .report-heading {
+            background: linear-gradient(135deg, #073b18 0%, #0a4d20 100%);
+            color: #f7e7a9;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 8px;
+            border-radius: 6px;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            border: 1px solid #d4af37;
+        }
+
+        .period-banner {
+            background: #fdfce8;
+            border: 1.5px solid #d4af37;
+            color: #073b18;
+            padding: 8px 12px;
+            border-radius: 5px;
+            font-size: 13px;
+            font-weight: bold;
+            margin: 10px 0 16px 0;
+            text-align: center;
+        }
+
+        h2 {
+            color: #073b18;
+            border-bottom: 2px solid #d4af37;
+            padding-bottom: 4px;
+            margin-top: 18px;
+            margin-bottom: 10px;
+            font-size: 16px;
+            font-weight: 700;
+            page-break-after: avoid;
+            break-after: avoid;
+        }
+
+        .section-block {
+            margin-bottom: 16px;
+        }
+
+        .info-card {
+            background: #fdfce8;
+            border-left: 4px solid #0a5223;
+            border-top: 1px solid #ebd999;
+            border-right: 1px solid #ebd999;
+            border-bottom: 1px solid #ebd999;
+            padding: 12px 14px;
+            margin-bottom: 12px;
+            border-radius: 5px;
+        }
+
+        .info-card-gold {
+            background: #fffdf5;
+            border-left: 4px solid #d4af37;
+            border-top: 1px solid #ebd999;
+            border-right: 1px solid #ebd999;
+            border-bottom: 1px solid #ebd999;
+            padding: 12px 14px;
+            margin-bottom: 12px;
+            border-radius: 5px;
+        }
+
+        .info-grid-3cols {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px 14px;
+            font-size: 13px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 14px;
+            background: #ffffff;
+        }
+
+        th, td {
+            border: 1px solid #dcd3b2;
+            padding: 7px 9px;
+            text-align: left;
+            font-size: 12.5px;
+            vertical-align: middle;
+        }
+
+        th {
+            background-color: #073b18;
+            color: #f7e7a9;
+            font-weight: 700;
+        }
+
+        tr:nth-child(even) {
+            background-color: #fcfbdf;
+        }
+
+        .charts-wrapper {
+            display: flex;
+            gap: 12px;
+            justify-content: space-between;
+            margin: 8px 0;
+            width: 100%;
+            page-break-inside: avoid;
+            break-inside: avoid;
+        }
+
+        .chart-box {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .chart-box h3 {
+            color: #073b18;
+            font-size: 13px;
+            text-align: center;
+            margin-bottom: 2px;
+            font-weight: 700;
+        }
+
+        .chart-purpose {
+            font-size: 11px;
+            color: #555;
+            text-align: center;
+            margin-bottom: 4px;
+            font-style: italic;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1.2;
+        }
+
+        .chart-table {
+            width: 100%;
+            border-collapse: collapse;
+            border: 1.5px solid #073b18;
+            table-layout: fixed;
+            background: #fff;
+        }
+
+        .chart-table td {
+            border: 1px solid #073b18;
+            height: 50px;
+            vertical-align: top;
+            padding: 3px;
+            font-size: 9px;
+            position: relative;
+        }
+
+        .chart-table .center-box {
+            background-color: #fcf9de;
+            text-align: center;
+            vertical-align: middle;
+            font-weight: bold;
+            color: #073b18;
+            font-size: 11px;
+        }
+
+        .sign-num {
+            font-size: 8px;
+            color: #666;
+            position: absolute;
+            bottom: 2px;
+            right: 3px;
+        }
+
+        .planet-tag {
+            color: #073b18;
+            font-weight: bold;
+            font-size: 9px;
+            display: block;
+            line-height: 1.15;
+        }
+
+        /* Transits Section Styling */
+        .transits-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 8px;
+        }
+
+        .transit-card {
+            background: #fdfce8;
+            border-left: 5px solid #d4af37;
+            border-top: 1px solid #ebd999;
+            border-right: 1px solid #ebd999;
+            border-bottom: 1px solid #ebd999;
+            padding: 14px 16px;
+            border-radius: 6px;
+            page-break-inside: avoid;
+            break-inside: avoid;
+        }
+
+        .transit-card h3 {
+            color: #073b18;
+            font-size: 14.5px;
+            margin-bottom: 6px;
+            font-weight: 700;
+        }
+
+        .transit-card p {
+            font-size: 13px;
+            line-height: 1.55;
+            color: #2c3e2e;
+        }
+
+        .synthesis-card {
+            background: #fffdf5;
+            border-left: 4px solid #0a5223;
+            border-top: 1px solid #ebd999;
+            border-right: 1px solid #ebd999;
+            border-bottom: 1px solid #ebd999;
+            padding: 12px 14px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            page-break-inside: avoid;
+            break-inside: avoid;
+        }
+
+        .synthesis-card h3 {
+            color: #073b18;
+            font-size: 13.5px;
+            margin-bottom: 4px;
+            font-weight: 700;
+        }
+
+        .synthesis-card p {
+            font-size: 12.5px;
+            line-height: 1.5;
+        }
+
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .action-btn {
+            background: linear-gradient(180deg, #0a5223 0%, #053315 100%);
+            color: #fff1b8;
+            padding: 10px 22px;
+            border-radius: 5px;
+            border: 1px solid #d4af37;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 13px;
+            text-transform: uppercase;
+        }
+
+        @media print {
+            @page {
+                size: A4 portrait;
+                margin: 8mm;
+            }
+            body {
+                padding: 0;
+                background-color: #fff;
+                font-size: 10pt;
+                color: #1b261b;
+            }
+            .container {
+                box-shadow: none;
+                border: none;
+                max-width: 100% !important;
+                width: 100% !important;
+                padding: 0 !important;
+            }
+            .btn-group {
+                display: none !important;
+            }
+            .logo-container img.emblem-img {
+                width: 170px !important;
+                -webkit-print-color-adjust: exact;
+            }
+            h2, h3 {
+                page-break-after: avoid !important;
+                break-after: avoid !important;
+            }
+            .charts-wrapper, tr {
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+            }
+            .transit-card, .synthesis-card, .info-card {
+                page-break-inside: auto !important;
+                break-inside: auto !important;
+                margin-bottom: 8px !important;
+                padding: 10px 12px !important;
+            }
+            th, td {
+                padding: 5px 7px !important;
+                font-size: 9pt !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- Header Logo & Title Presentation -->
+    <div class="logo-container">
+        <img src="{{ url_for('static', filename='emblem.jpg') }}"
+             class="emblem-img"
+             alt="Emblem"
+             onerror="this.src='{{ url_for('static', filename='header_banner.png') }}';">
+        <div class="brand-title">Vidhu Astro Prediction</div>
+        <div class="brand-subtitle">Where Traditional Astrology Meets Vidhu’s AI Intelligence</div>
+        <div class="brand-tagline">— Powered by Vidhu Kutty</div>
+        <div class="report-heading">Birth Chart & Dasa Bhukti Report</div>
+    </div>
+
+    <!-- Running Dasa Period Highlight Banner -->
+    <div class="period-banner">
+        ⏳ <strong>CURRENT RUNNING PERIOD:</strong> {{ chart._meta.current_period }}
+    </div>
+
+    <!-- 1. Birth Details & Panchangam -->
+    <div class="section-block">
+        <h2>1. Birth Details & Panchangam</h2>
+        <div class="info-card">
+            <div class="info-grid-3cols">
+                <p><strong>Name:</strong> {{ chart._meta.person_name }}</p>
+                <p><strong>Date of Birth:</strong> {{ chart._meta.dob }}</p>
+                <p><strong>Day:</strong> {{ chart._meta.weekday }}</p>
+                <p><strong>Time of Birth:</strong> {{ chart._meta.tob }}</p>
+                <p><strong>Place of Birth:</strong> {{ chart._meta.place }}</p>
+                <p><strong>Coordinates:</strong> {{ chart._meta.latitude }}, {{ chart._meta.longitude }}</p>
+                <p><strong>Ayanamsa:</strong> {{ chart._meta.ayanamsa }}</p>
+                <p><strong>Tithi:</strong> {{ chart.panchangam.tithi }}</p>
+                <p><strong>Yoga / Karana:</strong> {{ chart.panchangam.yoga }} / {{ chart.panchangam.karana }}</p>
+            </div>
+        </div>
+
+        <table>
+            <tr>
+                <th style="width: 25%;">Nakshatra</th>
+                <td style="width: 25%;">{{ chart.panchangam.nakshatra }}</td>
+                <th style="width: 25%;">Moon Sign (Rasi)</th>
+                <td style="width: 25%;">{{ chart.panchangam.rasi }}</td>
+            </tr>
+            <tr>
+                <th>Nakshatra Lord</th>
+                <td>{{ chart.planets.Moon.meta.lord }}</td>
+                <th>Gana / Yoni</th>
+                <td>{{ chart.planets.Moon.meta.gana }} / {{ chart.planets.Moon.meta.yoni }}</td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- 2. Divisional Charts (D1, D9, D10, D20) -->
+    <div class="section-block">
+        <h2>2. Divisional Charts & Their Purposes</h2>
+
+        <div class="charts-wrapper">
+            <!-- Rasi Chart (D1) -->
+            <div class="chart-box">
+                <h3>Rasi Chart (D1)</h3>
+                <div class="chart-purpose">Life foundations, physical vitality and planetary placements.</div>
+                <table class="chart-table">
+                    <tr>
+                        <td><span class="sign-num">Meena</span>{% for p_name, p_data in chart.planets.items() %}{% if p_data.rasi_idx == 11 %}{% if p_name == 'Lagna' %}<span style="color: #d35400; font-weight: 900; font-size: 9px; display: block;">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p_name }}</span>{% endif %}{% endif %}{% endfor %}</td>
+                        <td><span class="sign-num">Mesha</span>{% for p_name, p_data in chart.planets.items() %}{% if p_data.rasi_idx == 0 %}{% if p_name == 'Lagna' %}<span style="color: #d35400; font-weight: 900; font-size: 9px; display: block;">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p_name }}</span>{% endif %}{% endif %}{% endfor %}</td>
+                        <td><span class="sign-num">Rishaba</span>{% for p_name, p_data in chart.planets.items() %}{% if p_data.rasi_idx == 1 %}{% if p_name == 'Lagna' %}<span style="color: #d35400; font-weight: 900; font-size: 9px; display: block;">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p_name }}</span>{% endif %}{% endif %}{% endfor %}</td>
+                        <td><span class="sign-num">Mithuna</span>{% for p_name, p_data in chart.planets.items() %}{% if p_data.rasi_idx == 2 %}{% if p_name == 'Lagna' %}<span style="color: #d35400; font-weight: 900; font-size: 9px; display: block;">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p_name }}</span>{% endif %}{% endif %}{% endfor %}</td>
+                    </tr>
+                    <tr>
+                        <td><span class="sign-num">Kumbha</span>{% for p_name, p_data in chart.planets.items() %}{% if p_data.rasi_idx == 10 %}{% if p_name == 'Lagna' %}<span style="color: #d35400; font-weight: 900; font-size: 9px; display: block;">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p_name }}</span>{% endif %}{% endif %}{% endfor %}</td>
+                        <td colspan="2" rowspan="2" class="center-box">D1 RASI</td>
+                        <td><span class="sign-num">Kataka</span>{% for p_name, p_data in chart.planets.items() %}{% if p_data.rasi_idx == 3 %}{% if p_name == 'Lagna' %}<span style="color: #d35400; font-weight: 900; font-size: 9px; display: block;">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p_name }}</span>{% endif %}{% endif %}{% endfor %}</td>
+                    </tr>
+                    <tr>
+                        <td><span class="sign-num">Makara</span>{% for p_name, p_data in chart.planets.items() %}{% if p_data.rasi_idx == 9 %}{% if p_name == 'Lagna' %}<span style="color: #d35400; font-weight: 900; font-size: 9px; display: block;">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p_name }}</span>{% endif %}{% endif %}{% endfor %}</td>
+                        <td><span class="sign-num">Simha</span>{% for p_name, p_data in chart.planets.items() %}{% if p_data.rasi_idx == 4 %}{% if p_name == 'Lagna' %}<span style="color: #d35400; font-weight: 900; font-size: 9px; display: block;">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p_name }}</span>{% endif %}{% endif %}{% endfor %}</td>
+                    </tr>
+                    <tr>
+                        <td><span class="sign-num">Dhanus</span>{% for p_name, p_data in chart.planets.items() %}{% if p_data.rasi_idx == 8 %}{% if p_name == 'Lagna' %}<span style="color: #d35400; font-weight: 900; font-size: 9px; display: block;">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p_name }}</span>{% endif %}{% endif %}{% endfor %}</td>
+                        <td><span class="sign-num">Vrichika</span>{% for p_name, p_data in chart.planets.items() %}{% if p_data.rasi_idx == 7 %}{% if p_name == 'Lagna' %}<span style="color: #d35400; font-weight: 900; font-size: 9px; display: block;">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p_name }}</span>{% endif %}{% endif %}{% endfor %}</td>
+                        <td><span class="sign-num">Tula</span>{% for p_name, p_data in chart.planets.items() %}{% if p_data.rasi_idx == 6 %}{% if p_name == 'Lagna' %}<span style="color: #d35400; font-weight: 900; font-size: 9px; display: block;">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p_name }}</span>{% endif %}{% endif %}{% endfor %}</td>
+                        <td><span class="sign-num">Kanya</span>{% for p_name, p_data in chart.planets.items() %}{% if p_data.rasi_idx == 5 %}{% if p_name == 'Lagna' %}<span style="color: #d35400; font-weight: 900; font-size: 9px; display: block;">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p_name }}</span>{% endif %}{% endif %}{% endfor %}</td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- Navamsa Chart (D9) -->
+            <div class="chart-box">
+                <h3>Navamsa Chart (D9)</h3>
+                <div class="chart-purpose">Inner planetary strength, marriage harmony, and second half of life.</div>
+                <table class="chart-table">
+                    <tr>
+                        <td><span class="sign-num">Meena</span>{% for p_name, p_data in chart.planets.items() %}{% if p_data.navamsa == 'Meena' %}{% if p_name == 'Lagna' %}<span style="color: #d35400; font-weight: 900; font-size: 9px; display: block;">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p_name }}</span>{% endif %}{% endif %}{% endfor %}</td>
+                        <td><span class="sign-num">Mesha</span>{% for p_name, p_data in chart.planets.items() %}{% if p_data.navamsa == 'Mesha' %}{% if p_name == 'Lagna' %}<span style="color: #d35400; font-weight: 900; font-size: 9px; display: block;">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p_name }}</span>{% endif %}{% endif %}{% endfor %}</td>
+                        <td><span class="sign-num">Rishaba</span>{% for p_name, p_data in chart.planets.items() %}{% if p_data.navamsa == 'Rishaba' %}{% if p_name == 'Lagna' %}<span style="color: #d35400; font-weight: 900; font-size: 9px; display: block;">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p_name }}</span>{% endif %}{% endif %}{% endfor %}</td>
+                        <td><span class="sign-num">Mithuna</span>{% for p_name, p_data in chart.planets.items() %}{% if p_data.navamsa == 'Mithuna' %}{% if p_name == 'Lagna' %}<span style="color: #d35400; font-weight: 900; font-size: 9px; display: block;">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p_name }}</span>{% endif %}{% endif %}{% endfor %}</td>
+                    </tr>
+                    <tr>
+                        <td><span class="sign-num">Kumbha</span>{% for p_name, p_data in chart.planets.items() %}{% if p_data.navamsa == 'Kumbha' %}{% if p_name == 'Lagna' %}<span style="color: #d35400; font-weight: 900; font-size: 9px; display: block;">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p_name }}</span>{% endif %}{% endif %}{% endfor %}</td>
+                        <td colspan="2" rowspan="2" class="center-box">D9 NAVAMSA</td>
+                        <td><span class="sign-num">Kataka</span>{% for p_name, p_data in chart.planets.items() %}{% if p_data.navamsa == 'Kataka' %}{% if p_name == 'Lagna' %}<span style="color: #d35400; font-weight: 900; font-size: 9px; display: block;">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p_name }}</span>{% endif %}{% endif %}{% endfor %}</td>
+                    </tr>
+                    <tr>
+                        <td><span class="sign-num">Makara</span>{% for p_name, p_data in chart.planets.items() %}{% if p_data.navamsa == 'Makara' %}{% if p_name == 'Lagna' %}<span style="color: #d35400; font-weight: 900; font-size: 9px; display: block;">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p_name }}</span>{% endif %}{% endif %}{% endfor %}</td>
+                        <td><span class="sign-num">Simha</span>{% for p_name, p_data in chart.planets.items() %}{% if p_data.navamsa == 'Simha' %}{% if p_name == 'Lagna' %}<span style="color: #d35400; font-weight: 900; font-size: 9px; display: block;">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p_name }}</span>{% endif %}{% endif %}{% endfor %}</td>
+                    </tr>
+                    <tr>
+                        <td><span class="sign-num">Dhanus</span>{% for p_name, p_data in chart.planets.items() %}{% if p_data.navamsa == 'Dhanus' %}{% if p_name == 'Lagna' %}<span style="color: #d35400; font-weight: 900; font-size: 9px; display: block;">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p_name }}</span>{% endif %}{% endif %}{% endfor %}</td>
+                        <td><span class="sign-num">Vrichika</span>{% for p_name, p_data in chart.planets.items() %}{% if p_data.navamsa == 'Vrichika' %}{% if p_name == 'Lagna' %}<span style="color: #d35400; font-weight: 900; font-size: 9px; display: block;">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p_name }}</span>{% endif %}{% endif %}{% endfor %}</td>
+                        <td><span class="sign-num">Tula</span>{% for p_name, p_data in chart.planets.items() %}{% if p_data.navamsa == 'Tula' %}{% if p_name == 'Lagna' %}<span style="color: #d35400; font-weight: 900; font-size: 9px; display: block;">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p_name }}</span>{% endif %}{% endif %}{% endfor %}</td>
+                        <td><span class="sign-num">Kanya</span>{% for p_name, p_data in chart.planets.items() %}{% if p_data.navamsa == 'Kanya' %}{% if p_name == 'Lagna' %}<span style="color: #d35400; font-weight: 900; font-size: 9px; display: block;">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p_name }}</span>{% endif %}{% endif %}{% endfor %}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="charts-wrapper" style="margin-top: 10px;">
+            <!-- Dasamsa Chart (D10) -->
+            <div class="chart-box">
+                <h3>Dasamsa Chart (D10)</h3>
+                <div class="chart-purpose">Career, executive authority, and professional standing.</div>
+                <table class="chart-table">
+                    <tr>
+                        <td><span class="sign-num">Meena</span>{% for p_name, p_data in chart.planets.items() %}{% if p_data.dasamsa == 'Meena' %}{% if p_name == 'Lagna' %}<span style="color: #d35400; font-weight: 900; font-size: 9px; display: block;">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p_name }}</span>{% endif %}{% endif %}{% endfor %}</td>
+                        <td><span class="sign-num">Mesha</span>{% for p_name, p_data in chart.planets.items() %}{% if p_data.dasamsa == 'Mesha' %}{% if p_name == 'Lagna' %}<span style="color: #d35400; font-weight: 900; font-size: 9px; display: block;">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p_name }}</span>{% endif %}{% endif %}{% endfor %}</td>
+                        <td><span class="sign-num">Rishaba</span>{% for p_name, p_data in chart.planets.items() %}{% if p_data.dasamsa == 'Rishaba' %}{% if p_name == 'Lagna' %}<span style="color: #d35400; font-weight: 900; font-size: 9px; display: block;">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p_name }}</span>{% endif %}{% endif %}{% endfor %}</td>
+                        <td><span class="sign-num">Mithuna</span>{% for p_name, p_data in chart.planets.items() %}{% if p_data.dasamsa == 'Mithuna' %}{% if p_name == 'Lagna' %}<span style="color: #d35400; font-weight: 900; font-size: 9px; display: block;">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p_name }}</span>{% endif %}{% endif %}{% endfor %}</td>
+                    </tr>
+                    <tr>
+                        <td><span class="sign-num">Kumbha</span>{% for p_name, p_data in chart.planets.items() %}{% if p_data.dasamsa == 'Kumbha' %}{% if p_name == 'Lagna' %}<span style="color: #d35400; font-weight: 900; font-size: 9px; display: block;">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p_name }}</span>{% endif %}{% endif %}{% endfor %}</td>
+                        <td colspan="2" rowspan="2" class="center-box">D10 DASAMSA</td>
+                        <td><span class="sign-num">Kataka</span>{% for p_name, p_data in chart.planets.items() %}{% if p_data.dasamsa == 'Kataka' %}{% if p_name == 'Lagna' %}<span style="color: #d35400; font-weight: 900; font-size: 9px; display: block;">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p_name }}</span>{% endif %}{% endif %}{% endfor %}</td>
+                    </tr>
+                    <tr>
+                        <td><span class="sign-num">Makara</span>{% for p_name, p_data in chart.planets.items() %}{% if p_data.dasamsa == 'Makara' %}{% if p_name == 'Lagna' %}<span style="color: #d35400; font-weight: 900; font-size: 9px; display: block;">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p_name }}</span>{% endif %}{% endif %}{% endfor %}</td>
+                        <td><span class="sign-num">Simha</span>{% for p_name, p_data in chart.planets.items() %}{% if p_data.dasamsa == 'Simha' %}{% if p_name == 'Lagna' %}<span style="color: #d35400; font-weight: 900; font-size: 9px; display: block;">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p_name }}</span>{% endif %}{% endif %}{% endfor %}</td>
+                    </tr>
+                    <tr>
+                        <td><span class="sign-num">Dhanus</span>{% for p_name, p_data in chart.planets.items() %}{% if p_data.dasamsa == 'Dhanus' %}{% if p_name == 'Lagna' %}<span style="color: #d35400; font-weight: 900; font-size: 9px; display: block;">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p_name }}</span>{% endif %}{% endif %}{% endfor %}</td>
+                        <td><span class="sign-num">Vrichika</span>{% for p_name, p_data in chart.planets.items() %}{% if p_data.dasamsa == 'Vrichika' %}{% if p_name == 'Lagna' %}<span style="color: #d35400; font-weight: 900; font-size: 9px; display: block;">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p_name }}</span>{% endif %}{% endif %}{% endfor %}</td>
+                        <td><span class="sign-num">Tula</span>{% for p_name, p_data in chart.planets.items() %}{% if p_data.dasamsa == 'Tula' %}{% if p_name == 'Lagna' %}<span style="color: #d35400; font-weight: 900; font-size: 9px; display: block;">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p_name }}</span>{% endif %}{% endif %}{% endfor %}</td>
+                        <td><span class="sign-num">Kanya</span>{% for p_name, p_data in chart.planets.items() %}{% if p_data.dasamsa == 'Kanya' %}{% if p_name == 'Lagna' %}<span style="color: #d35400; font-weight: 900; font-size: 9px; display: block;">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p_name }}</span>{% endif %}{% endif %}{% endfor %}</td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- Vimshamsa Chart (D20) -->
+            <div class="chart-box">
+                <h3>Vimshamsa Chart (D20)</h3>
+                <div class="chart-purpose">Spiritual inclinations, inner devotion, and higher worship practices.</div>
+                <table class="chart-table">
+                    <tr>
+                        <td><span class="sign-num">Meena</span>{% for p_name, p_data in chart.planets.items() %}{% if p_data.vimshamsa_d20 == 'Meena' %}{% if p_name == 'Lagna' %}<span style="color: #d35400; font-weight: 900; font-size: 9px; display: block;">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p_name }}</span>{% endif %}{% endif %}{% endfor %}</td>
+                        <td><span class="sign-num">Mesha</span>{% for p_name, p_data in chart.planets.items() %}{% if p_data.vimshamsa_d20 == 'Mesha' %}{% if p_name == 'Lagna' %}<span style="color: #d35400; font-weight: 900; font-size: 9px; display: block;">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p_name }}</span>{% endif %}{% endif %}{% endfor %}</td>
+                        <td><span class="sign-num">Rishaba</span>{% for p_name, p_data in chart.planets.items() %}{% if p_data.vimshamsa_d20 == 'Rishaba' %}{% if p_name == 'Lagna' %}<span style="color: #d35400; font-weight: 900; font-size: 9px; display: block;">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p_name }}</span>{% endif %}{% endif %}{% endfor %}</td>
+                        <td><span class="sign-num">Mithuna</span>{% for p_name, p_data in chart.planets.items() %}{% if p_data.vimshamsa_d20 == 'Mithuna' %}{% if p_name == 'Lagna' %}<span style="color: #d35400; font-weight: 900; font-size: 9px; display: block;">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p_name }}</span>{% endif %}{% endif %}{% endfor %}</td>
+                    </tr>
+                    <tr>
+                        <td><span class="sign-num">Kumbha</span>{% for p_name, p_data in chart.planets.items() %}{% if p_data.vimshamsa_d20 == 'Kumbha' %}{% if p_name == 'Lagna' %}<span style="color: #d35400; font-weight: 900; font-size: 9px; display: block;">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p_name }}</span>{% endif %}{% endif %}{% endfor %}</td>
+                        <td colspan="2" rowspan="2" class="center-box">D20 VIMSHAMSA</td>
+                        <td><span class="sign-num">Kataka</span>{% for p_name, p_data in chart.planets.items() %}{% if p_data.vimshamsa_d20 == 'Kataka' %}{% if p_name == 'Lagna' %}<span style="color: #d35400; font-weight: 900; font-size: 9px; display: block;">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p_name }}</span>{% endif %}{% endif %}{% endfor %}</td>
+                    </tr>
+                    <tr>
+                        <td><span class="sign-num">Makara</span>{% for p_name, p_data in chart.planets.items() %}{% if p_data.vimshamsa_d20 == 'Makara' %}{% if p_name == 'Lagna' %}<span style="color: #d35400; font-weight: 900; font-size: 9px; display: block;">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p_name }}</span>{% endif %}{% endif %}{% endfor %}</td>
+                        <td><span class="sign-num">Simha</span>{% for p_name, p_data in chart.planets.items() %}{% if p_data.vimshamsa_d20 == 'Simha' %}{% if p_name == 'Lagna' %}<span style="color: #d35400; font-weight: 900; font-size: 9px; display: block;">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p_name }}</span>{% endif %}{% endif %}{% endfor %}</td>
+                    </tr>
+                    <tr>
+                        <td><span class="sign-num">Dhanus</span>{% for p_name, p_data in chart.planets.items() %}{% if p_data.vimshamsa_d20 == 'Dhanus' %}{% if p_name == 'Lagna' %}<span style="color: #d35400; font-weight: 900; font-size: 9px; display: block;">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p_name }}</span>{% endif %}{% endif %}{% endfor %}</td>
+                        <td><span class="sign-num">Vrichika</span>{% for p_name, p_data in chart.planets.items() %}{% if p_data.vimshamsa_d20 == 'Vrichika' %}{% if p_name == 'Lagna' %}<span style="color: #d35400; font-weight: 900; font-size: 9px; display: block;">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p_name }}</span>{% endif %}{% endif %}{% endfor %}</td>
+                        <td><span class="sign-num">Tula</span>{% for p_name, p_data in chart.planets.items() %}{% if p_data.vimshamsa_d20 == 'Tula' %}{% if p_name == 'Lagna' %}<span style="color: #d35400; font-weight: 900; font-size: 9px; display: block;">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p_name }}</span>{% endif %}{% endif %}{% endfor %}</td>
+                        <td><span class="sign-num">Kanya</span>{% for p_name, p_data in chart.planets.items() %}{% if p_data.vimshamsa_d20 == 'Kanya' %}{% if p_name == 'Lagna' %}<span style="color: #d35400; font-weight: 900; font-size: 9px; display: block;">*LAGNA*</span>{% else %}<span class="planet-tag">{{ p_name }}</span>{% endif %}{% endif %}{% endfor %}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. Planetary Positions & Dignity -->
+    <div class="section-block">
+        <h2>3. Planetary Positions, Dignity & Functional Lordship</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 15%;">Planet / Body</th>
+                    <th style="width: 17%;">Rasi (Sign)</th>
+                    <th style="width: 16%;">Sign Degrees</th>
+                    <th style="width: 24%;">Nakshatra & Pada</th>
+                    <th style="width: 14%;">Dignity</th>
+                    <th style="width: 14%;">Functional Lord</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for p_name, p_data in chart.planets.items() %}
+                <tr>
+                    <td><strong>{{ p_data.display_label }}</strong></td>
+                    <td>{{ p_data.rasi_display }}</td>
+                    <td>{{ p_data.formatted_deg }}</td>
+                    <td>{{ p_data.nakshatra_display }}</td>
+                    <td><strong>{{ p_data.dignity }}</strong></td>
+                    <td><span style="font-size: 11.5px; color: #073b18;">{{ p_data.functional_tag }}</span></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 4. Special Yogas (Fully Rendered Rasi Column) -->
+    <div class="section-block">
+        <h2>4. Special Yogas & Auspicious Configurations</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 24%;">Yoga Title</th>
+                    <th style="width: 20%;">Formation Sign / House</th>
+                    <th style="width: 24%;">Planets Involved</th>
+                    <th style="width: 32%;">Classical Result & Timing</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for yoga in chart.conjunctions_2_planet %}
+                <tr>
+                    <td><strong>{{ yoga.title }}</strong></td>
+                    <td><strong>{{ yoga.rasi if yoga.rasi else yoga.formation_sign }}</strong></td>
+                    <td>{{ yoga.planets }}</td>
+                    <td>{{ yoga.effect }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 5. Dosha Details & Analysis -->
+    <div class="section-block">
+        <h2>5. Dosha Details & Neutralization Analysis</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 20%;">Dosha Name</th>
+                    <th style="width: 16%;">Status</th>
+                    <th style="width: 26%;">Planetary Placement Condition</th>
+                    <th style="width: 38%;">Classical Impact & Remedy Analysis</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for d in chart.doshas %}
+                <tr>
+                    <td><strong>{{ d.name }}</strong></td>
+                    <td>
+                        {% if 'CANCELLED' in d.status or 'MITIGATED' in d.status %}
+                            <span style="background-color: #e8f5e9; color: #1b5e20; font-weight: bold; padding: 2px 6px; border-radius: 4px; border: 1px solid #a5d6a7;">
+                                {{ d.status }}
+                            </span>
+                        {% elif d.status == 'PRESENT' %}
+                            <span style="background-color: #ffebee; color: #b71c1c; font-weight: bold; padding: 2px 6px; border-radius: 4px; border: 1px solid #ef9a9a;">
+                                PRESENT
+                            </span>
+                        {% else %}
+                            <span style="color: #1b5e20; font-weight: bold;">
+                                {{ d.status }}
+                            </span>
+                        {% endif %}
+                    </td>
+                    <td>{{ d.details }}</td>
+                    <td>{{ d.impact }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 6. Maha Dasa & Dasa Bhukti Timeline -->
+    <div class="section-block">
+        <h2>6. Maha Dasa & Dasa Bhukti Timeline</h2>
+        <div class="info-card">
+            <p><strong>Balance Dasa at Birth:</strong> {{ chart.dasa_remaining }}</p>
+        </div>
+
+        {% for dasa in chart.dasa_bhukti %}
+        <div style="page-break-inside: avoid; break-inside: avoid; margin-bottom: 12px;">
+            <h3 style="color:#073b18; font-size:13px; margin-top:8px; margin-bottom: 4px; font-weight: 700; page-break-after: avoid; break-after: avoid;">
+                {{ dasa.dasa_lord }} Dasa Period ({{ dasa.start_date }} to {{ dasa.end_date }})
+            </h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 34%;">Bhukti Lord</th>
+                        <th style="width: 33%;">Start Date</th>
+                        <th style="width: 33%;">End Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for sub in dasa.antardasas %}
+                    <tr>
+                        <td>{{ sub.sub_lord }}</td>
+                        <td>{{ sub.start_date }}</td>
+                        <td>{{ sub.end_date }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- 7. Planetary Transits (Gocharam) - Structured, High-Readability Layout -->
+    <div class="section-block">
+        <h2>7. Planetary Transits (Gocharam) & Dasa-Bhukti Synthesis</h2>
+
+        <div class="transits-container">
+            <!-- Saturn Transit Card -->
+            <div class="transit-card">
+                <h3>🪐 {{ chart.saturn_transit_analysis.title }}</h3>
+                <p style="white-space: pre-line;">{{ chart.saturn_transit_analysis.analysis }}</p>
+            </div>
+
+            <!-- Jupiter Transit Card -->
+            <div class="transit-card">
+                <h3>✨ {{ chart.jupiter_transit_analysis.title }}</h3>
+                <p style="white-space: pre-line;">{{ chart.jupiter_transit_analysis.analysis }}</p>
+            </div>
+
+            <!-- Rahu-Ketu Transit Card -->
+            <div class="transit-card">
+                <h3>🔄 {{ chart.rahu_ketu_transit_analysis.title }}</h3>
+                <p style="white-space: pre-line;">{{ chart.rahu_ketu_transit_analysis.analysis }}</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 8. Prediction Summary & Dynamic Trikona Synthesis -->
+    <div class="section-block">
+        <h2>8. Prediction Summary & Dynamic Trikona Synthesis</h2>
+
+        <div class="synthesis-card">
+            <h3>🔺 DHARMA TRIKONA (HOUSES 1, 5, 9) — INTELLECT & PURVA PUNYA</h3>
+            <p>{{ chart.prediction_summary.dharma_trikona }}</p>
+        </div>
+
+        <div class="synthesis-card">
+            <h3>💼 ARTHA TRIKONA (HOUSES 2, 6, 10) — CAREER & OBSTACLE VICTORY</h3>
+            <p>{{ chart.prediction_summary.artha_trikona }}</p>
+        </div>
+
+        <div class="synthesis-card">
+            <h3>📈 KAMA & LABHA (HOUSES 3, 7, 11) — NETWORKS & FINANCIAL ATTAINMENT</h3>
+            <p>{{ chart.prediction_summary.kama_labha }}</p>
+        </div>
+
+        <div class="synthesis-card">
+            <h3>🌌 MOKSHA TRIKONA (HOUSES 4, 8, 12) — INNER HEALING & INTROSPECTION</h3>
+            <p>{{ chart.prediction_summary.moksha_trikona }}</p>
+        </div>
+
+        <div class="info-card" style="margin-top: 10px; margin-bottom: 12px;">
+            <h3 style="color:#073b18; font-size: 14px; margin-bottom: 6px; font-weight: 700;">🌟 DIVISIONAL (VARGA) INTEGRATED OUTLOOK</h3>
+            <p style="margin-bottom: 5px; font-size: 13px;"><strong>Navamsa (D9) Dynamics:</strong> {{ chart.prediction_summary.overall_horoscope.d9 }}</p>
+            <p style="margin-bottom: 5px; font-size: 13px;"><strong>Dasamsa (D10) Standing:</strong> {{ chart.prediction_summary.overall_horoscope.d10 }}</p>
+            <p style="font-size: 13px;"><strong>Vimshamsa (D20) Devotion:</strong> {{ chart.prediction_summary.overall_horoscope.d20 }}</p>
+        </div>
+
+        <h3 style="color:#073b18; font-size:14px; margin-top: 14px; margin-bottom: 6px; page-break-after: avoid; break-after: avoid;">📌 KEY PLANETARY CONFIGURATIONS & SPECIAL ASPECTS</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 32%;">Configuration / Planetary Aspect</th>
+                    <th style="width: 68%;">Classical Astrological Significance</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for config in chart.prediction_summary.key_configurations %}
+                <tr>
+                    <td><strong>{{ config.title }}</strong></td>
+                    <td>{{ config.desc }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Balanced Evaluation Card -->
+        <div class="info-card" style="margin-top: 12px; page-break-inside: avoid; break-inside: avoid;">
+            <h3 style="color:#073b18; font-size: 14px; margin-bottom: 6px; font-weight: 700;">📊 BALANCED DASA BHUKTI & PLANETARY EVALUATION</h3>
+            <p style="margin-bottom: 5px; font-size: 12.5px;"><strong>Auspicious Dasa Periods:</strong> {{ chart.prediction_summary.favorable_dasas | join('; ') }}</p>
+            <p style="margin-bottom: 5px; font-size: 12.5px;"><strong>Mixed / Transformation Dasa Periods:</strong> {{ chart.prediction_summary.mixed_dasas | join('; ') }}</p>
+            <p style="margin-bottom: 6px; font-size: 12.5px;"><strong>Cautionary Dasa Periods:</strong> {{ chart.prediction_summary.unfavorable_dasas | join('; ') }}</p>
+            <hr style="border: 0; border-top: 1px solid #ebd999; margin: 6px 0;">
+            <p style="font-size: 12.5px;"><strong>Favorable Planets:</strong> {{ chart.prediction_summary.favorable_planets }} &nbsp;|&nbsp; <strong>Functional Caution:</strong> {{ chart.prediction_summary.unfavorable_planets }}</p>
+        </div>
+    </div>
+
+    <div class="btn-group">
+        <button onclick="window.print()" class="action-btn">Download as PDF / Print</button>
+    </div>
+</div>
+
+</body>
+</html>

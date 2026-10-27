@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vidhu Astro Prediction</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Georgia', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #fffdf2;
+            background-image:
+                radial-gradient(circle at left center, rgba(212, 175, 55, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at right center, rgba(212, 175, 55, 0.08) 0%, transparent 40%);
+            color: #2c3e2e;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* =================================================
+           HEADER (DEEP FOREST GREEN + GOLD DECORATION)
+           ================================================= */
+
+        header {
+            background: linear-gradient(135deg, #073b18 0%, #0a4d20 50%, #052e12 100%);
+            color: white;
+            padding: 40px 20px 45px;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+            border-bottom: 3px solid #d4af37;
+            overflow: hidden;
+        }
+
+        /* Gold Mandalas & Hanging Diyas Background Overlay */
+        header::before,
+        header::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            width: 220px;
+            height: 100%;
+            background-size: contain;
+            background-repeat: no-repeat;
+            opacity: 0.25;
+            pointer-events: none;
+        }
+
+        header::before {
+            left: 0;
+            background-image: radial-gradient(circle, #ffd700 10%, transparent 11%),
+                              radial-gradient(circle, #ffd700 10%, transparent 11%);
+            background-position: 0 0, 25px 25px;
+            background-size: 50px 50px;
+        }
+
+        header::after {
+            right: 0;
+            background-image: radial-gradient(circle, #ffd700 10%, transparent 11%),
+                              radial-gradient(circle, #ffd700 10%, transparent 11%);
+            background-position: 0 0, 25px 25px;
+            background-size: 50px 50px;
+        }
+
+        /* Decorative Gold Border Line */
+        .header-gold-line {
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, #d4af37, #fff3a8, #d4af37, transparent);
+            position: absolute;
+            bottom: 0;
+            left: 0;
+        }
+
+        /* =================================================
+           LOGO
+           ================================================= */
+
+        .logo-container {
+            text-align: center;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .logo-container img {
+            width: 270px;
+            height: 140px;
+            object-fit: contain;
+            border-radius: 10px;
+            background: #ffffff;
+            padding: 10px;
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+            border: 2px solid #d4af37;
+        }
+
+        /* =================================================
+           MAIN TITLE
+           ================================================= */
+
+        header h1 {
+            font-size: 38px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            letter-spacing: 0.8px;
+            color: #f7e7a9;
+            text-shadow: 1px 2px 4px rgba(0, 0, 0, 0.6);
+            position: relative;
+            z-index: 2;
+        }
+
+        /* =================================================
+           TAGLINE / QUOTE
+           ================================================= */
+
+        header .tagline {
+            font-size: 16px;
+            font-style: italic;
+            color: #e2f0d9;
+            max-width: 850px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* =================================================
+           MAIN CONTAINER
+           ================================================= */
+
+        .container {
+            max-width: 1150px;
+            margin: 50px auto;
+            padding: 0 25px;
+        }
+
+        /* =================================================
+           THREE CARDS GRID
+           ================================================= */
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 28px;
+            align-items: stretch;
+        }
+
+        /* =================================================
+           CARD
+           ================================================= */
+
+        .card {
+            background: #ffffff;
+            border-radius: 14px;
+            padding: 35px 25px 28px;
+            text-align: center;
+            border: 1.5px solid #e0d5a6;
+            box-shadow: 0 6px 18px rgba(10, 77, 32, 0.08);
+            transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 340px;
+            position: relative;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 28px rgba(10, 77, 32, 0.16);
+            border-color: #d4af37;
+        }
+
+        /* =================================================
+           ICON
+           ================================================= */
+
+        .card-icon-wrapper {
+            width: 75px;
+            height: 75px;
+            background: radial-gradient(circle, #fff9db 0%, #fff0b3 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            box-shadow: inset 0 0 6px rgba(212, 175, 55, 0.3);
+            border: 1px solid #ebd999;
+        }
+
+        .card-icon {
+            font-size: 38px;
+        }
+
+        /* =================================================
+           CARD TITLE
+           ================================================= */
+
+        .card h2 {
+            font-size: 20px;
+            color: #0d4a22;
+            margin-bottom: 14px;
+            line-height: 1.35;
+            font-weight: 700;
+        }
+
+        /* =================================================
+           CARD DESCRIPTION
+           ================================================= */
+
+        .card p {
+            font-size: 14px;
+            color: #556355;
+            margin-bottom: 25px;
+            line-height: 1.65;
+        }
+
+        /* =================================================
+           BUTTON
+           ================================================= */
+
+        .btn {
+            display: block;
+            width: 100%;
+            background: linear-gradient(180deg, #0a5223 0%, #053315 100%);
+            color: #fff1b8;
+            padding: 13px 18px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 13px;
+            letter-spacing: 0.6px;
+            border: 1px solid #d4af37;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+            transition: all 0.25s ease;
+            text-transform: uppercase;
+        }
+
+        .btn:hover {
+            background: linear-gradient(180deg, #0d612a 0%, #07421b 100%);
+            color: #ffffff;
+            box-shadow: 0 5px 12px rgba(212, 175, 55, 0.4);
+            border-color: #fce897;
+        }
+
+        /* =================================================
+           FOOTER
+           ================================================= */
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            font-size: 13px;
+            color: #6a786b;
+            margin-top: 30px;
+            border-top: 1px solid #ebdcb0;
+        }
+
+        /* =================================================
+           RESPONSIVE
+           ================================================= */
+
+        @media (max-width: 850px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .logo-container img {
+                width: 220px;
+                height: 120px;
+            }
+
+            header h1 {
+                font-size: 30px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- =====================================================
+     HEADER
+     ===================================================== -->
+<header>
+    <div class="logo-container">
+        <img
+            src="{{ url_for('static', filename='emblem.jpg') }}"
+            alt="Vidhu Astro Prediction Logo"
+            onerror="this.style.display='none'"
+        >
+    </div>
+
+    <h1>Vidhu Astro Prediction</h1>
+
+    <p class="tagline">
+        <i>Where Traditional Astrology Meets Vidhu’s AI Intelligence — Powered by Vidhu Kutty</i>
+    </p>
+
+    <div class="header-gold-line"></div>
+</header>
+
+<!-- =====================================================
+     MAIN OPTIONS
+     ===================================================== -->
+<div class="container">
+    <div class="grid">
+
+        <!-- 1. BIRTH CHART GENERATION -->
+        <div class="card">
+            <div>
+                <div class="card-icon-wrapper" aria-hidden="true">
+                    <div class="card-icon">🪷</div>
+                </div>
+
+                <h2>Birth Chart Generation</h2>
+
+                <p>
+                    Generate your complete birth chart, Panchangam, planetary positions, Rasi, Navamsa and Dasa Bhukti details.
+                </p>
+            </div>
+
+            <a href="{{ url_for('birth_chart_form') }}" class="btn">
+                GENERATE BIRTH CHART
+            </a>
+        </div>
+
+        <!-- 2. VIDHU PREDICTION -->
+        <div class="card">
+            <div>
+                <div class="card-icon-wrapper" aria-hidden="true">
+                    <div class="card-icon">🔮</div>
+                </div>
+
+                <h2>Vidhu Prediction</h2>
+
+                <p>
+                    Get instant AI-driven personalized horoscope predictions and detailed life guidance based on traditional Vedic astrology.
+                </p>
+            </div>
+
+            <a href="{{ url_for('vidhu_prediction') }}" class="btn">
+                GET VIDHU PREDICTION
+            </a>
+        </div>
+
+        <!-- 3. HOROSCOPE MATCHING BY BIRTH CHART -->
+        <div class="card">
+            <div>
+                <div class="card-icon-wrapper" aria-hidden="true">
+                    <div class="card-icon">💞</div>
+                </div>
+
+                <h2>Horoscope Matching by Birth Chart</h2>
+
+                <p>
+                    Compare complete birth charts, planetary positions and Chevvai Dosha for detailed compatibility analysis.
+                </p>
+            </div>
+
+            <a href="{{ url_for('chart_matching') }}" class="btn">
+                MATCH BIRTH CHARTS
+            </a>
+        </div>
+
+    </div>
+</div>
+
+<!-- =====================================================
+     FOOTER
+     ===================================================== -->
+<footer>
+    Vidhu Astro Prediction &nbsp;|&nbsp; Powered by Vidhu Kutty
+</footer>
+
+</body>
+</html>

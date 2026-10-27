@@ -1,0 +1,208 @@
+# -*- coding: utf-8 -*-
+from matching_engine import calculate_porutham, get_star_index_by_name, RASI_DATA
+
+
+def get_house_from_lagna(planet_rasi, lagna_rasi):
+    """Calculate house number (1 to 12) given planet rasi and lagna rasi indices."""
+    return ((planet_rasi - lagna_rasi) % 12) + 1
+
+
+def evaluate_chevvai_dosha(planets, lagna_idx):
+    """
+    Chevvai/Kuja/Mangal Dosham: Mars in houses 2, 4, 7, 8, or 12 from Lagna, Moon, or Venus.
+    """
+    mars_rasi = planets["Mars"]["rasi_idx"]
+    moon_rasi = planets["Moon"]["rasi_idx"]
+    venus_rasi = planets["Venus"]["rasi_idx"]
+
+    h_lagna = get_house_from_lagna(mars_rasi, lagna_idx)
+    h_moon = get_house_from_lagna(mars_rasi, moon_rasi)
+    h_venus = get_house_from_lagna(mars_rasi, venus_rasi)
+
+    dosha_houses = [2, 4, 7, 8, 12]
+    has_dosha = (h_lagna in dosha_houses) or (h_moon in dosha_houses) or (h_venus in dosha_houses)
+
+    return {
+        "has_dosha": has_dosha,
+        "from_lagna": h_lagna,
+        "from_moon": h_moon,
+        "from_venus": h_venus
+    }
+
+
+def evaluate_sarpa_dosha(planets, lagna_idx):
+    """
+    Sarpa/Naga Dosham: Rahu or Ketu in houses 2, 5, 7, or 8 from Lagna.
+    """
+    rahu_rasi = planets["Rahu"]["rasi_idx"]
+    ketu_rasi = planets["Ketu"]["rasi_idx"]
+
+    rahu_h = get_house_from_lagna(rahu_rasi, lagna_idx)
+    ketu_h = get_house_from_lagna(ketu_rasi, lagna_idx)
+
+    dosha_houses = [2, 5, 7, 8]
+    has_dosha = (rahu_h in dosha_houses) or (ketu_h in dosha_houses)
+
+    return {
+        "has_dosha": has_dosha,
+        "rahu_house": rahu_h,
+        "ketu_house": ketu_h
+    }
+
+
+def evaluate_kaalsarpa_dosha(planets):
+    """
+    Kaalsarpa Dosham: All 7 main planets hemmed between Rahu and Ketu.
+    """
+    rahu_idx = planets["Rahu"]["rasi_idx"]
+    ketu_idx = planets["Ketu"]["rasi_idx"]
+
+    main_planets = ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn"]
+    positions = [planets[p]["rasi_idx"] for p in main_planets]
+
+    min_node = min(rahu_idx, ketu_idx)
+    max_node = max(rahu_idx, ketu_idx)
+
+    side_a = all(min_node < p < max_node for p in positions)
+    side_b = all(p < min_node or p > max_node for p in positions)
+
+    return side_a or side_b
+
+
+def evaluate_pitru_dosha(planets, lagna_idx):
+    """
+    Pitru Dosham: Sun + Rahu/Ketu in 5th house or Rahu/Ketu in 5th house.
+    """
+    sun_h = get_house_from_lagna(planets["Sun"]["rasi_idx"], lagna_idx)
+    rahu_h = get_house_from_lagna(planets["Rahu"]["rasi_idx"], lagna_idx)
+    ketu_h = get_house_from_lagna(planets["Ketu"]["rasi_idx"], lagna_idx)
+
+    has_pitru = False
+    details = "Clear"
+
+    if (rahu_h == 5 or ketu_h == 5) and sun_h == 5:
+        has_pitru = True
+        details = "Sun conjunct Node in 5th House (Grahan Yoga / Pitru Dosham)"
+    elif rahu_h == 5 or ketu_h == 5:
+        node = "Rahu" if rahu_h == 5 else "Ketu"
+        has_pitru = True
+        details = f"{node} in 5th House (Putra Sthana Affliction)"
+
+    return {"has_dosha": has_pitru, "details": details}
+
+
+def evaluate_shashtashtaka(girl_moon_rasi, boy_moon_rasi):
+    """
+    Ashtama Rasi / Shashtashtaka (6-8 Rule):
+    Checks if Boy's Rasi is in 6th or 8th house from Girl's Moon Sign.
+    """
+    count_from_girl = ((boy_moon_rasi - girl_moon_rasi) % 12) + 1
+    is_6_8 = count_from_girl in [6, 8]
+
+    cancellation = False
+    if is_6_8:
+        girl_lord = RASI_DATA[girl_moon_rasi]["lord_en"]
+        boy_lord = RASI_DATA[boy_moon_rasi]["lord_en"]
+        if girl_lord == boy_lord:
+            cancellation = True
+
+    return {
+        "is_6_8": is_6_8,
+        "count": count_from_girl,
+        "cancelled": cancellation,
+        "harmful": is_6_8 and not cancellation
+    }
+
+
+def extract_star_name(nakshatra_raw):
+    """Safely extract star name from string format."""
+    if not nakshatra_raw:
+        return "Ashwini"
+    clean_str = nakshatra_raw.split("-")[0].split("(")[0].strip()
+    return clean_str.split(" ")[0].strip()
+
+
+def calculate_full_chart_matching(girl_chart, boy_chart, lang="English"):
+    is_ta = (lang == "Tamil")
+
+    # 1. Porutham Calculation
+    girl_star_name = extract_star_name(girl_chart.get("panchangam", {}).get("nakshatra", "Ashwini"))
+    boy_star_name = extract_star_name(boy_chart.get("panchangam", {}).get("nakshatra", "Ashwini"))
+
+    girl_star_idx = get_star_index_by_name(girl_star_name)
+    boy_star_idx = get_star_index_by_name(boy_star_name)
+
+    girl_rasi_idx = girl_chart["planets"]["Moon"]["rasi_idx"]
+    boy_rasi_idx = boy_chart["planets"]["Moon"]["rasi_idx"]
+
+    porutham_res = calculate_porutham(girl_star_idx, boy_star_idx, girl_rasi_idx, boy_rasi_idx, lang=lang)
+    score_str = f"{int(porutham_res['total_score'])}/10"
+
+    # 2. Dosha Analysis
+    girl_lagna = girl_chart["planets"]["Lagna"]["rasi_idx"]
+    boy_lagna = boy_chart["planets"]["Lagna"]["rasi_idx"]
+
+    g_chevvai = evaluate_chevvai_dosha(girl_chart["planets"], girl_lagna)
+    b_chevvai = evaluate_chevvai_dosha(boy_chart["planets"], boy_lagna)
+    chevvai_match = (g_chevvai["has_dosha"] == b_chevvai["has_dosha"])
+
+    g_sarpa = evaluate_sarpa_dosha(girl_chart["planets"], girl_lagna)
+    b_sarpa = evaluate_sarpa_dosha(boy_chart["planets"], boy_lagna)
+    sarpa_match = (g_sarpa["has_dosha"] == b_sarpa["has_dosha"])
+
+    g_kaal = evaluate_kaalsarpa_dosha(girl_chart["planets"])
+    b_kaal = evaluate_kaalsarpa_dosha(boy_chart["planets"])
+    kaalsarpa_match = (g_kaal == b_kaal)
+
+    g_pitru = evaluate_pitru_dosha(girl_chart["planets"], girl_lagna)
+    b_pitru = evaluate_pitru_dosha(boy_chart["planets"], boy_lagna)
+
+    shashtashtaka = evaluate_shashtashtaka(girl_rasi_idx, boy_rasi_idx)
+
+    # 3. Overall Verdict
+    dosha_pass = chevvai_match and sarpa_match and not porutham_res["mandatory_failed"] and not shashtashtaka["harmful"]
+
+    if dosha_pass and porutham_res["total_score"] >= 6:
+        overall_status = "திருமணம் செய்யலாம் - மிகச் சிறந்த பொருத்தம் (Highly Recommended)" if is_ta else "Highly Recommended"
+        status_color = "#27ae60"
+        overall_text = (
+            "இருவரின் ஜாதகத்திலும் செவ்வாய் மற்றும் சர்ப்ப தோஷங்கள் சமநிலையில் உள்ளன. "
+            "10 பொருத்தங்களில் முக்கிய ரஜ்ஜு மற்றும் வேதை பொருத்தங்கள் நன்றாக அமைந்திருப்பதால், "
+            "இத்தம்பதியரின் வாழ்க்கை மகிழ்ச்சியாகவும், வம்ச விருத்தியுடனும், நீடித்த ஒற்றுமையுடனும் அமையும்."
+            if is_ta else
+            "The birth charts exhibit strong structural compatibility. Chevvai and Sarpa Doshas are in perfect balance, "
+            "and mandatory Poruthams (Rajju and Vedha) are clear. The couple is likely to enjoy long-term stability, "
+            "financial growth, and domestic harmony after marriage."
+        )
+    elif dosha_pass:
+        overall_status = "மிதமான பொருத்தம் - பரிகாரங்களுடன் செய்யலாம் (Moderately Recommended)" if is_ta else "Moderately Recommended"
+        status_color = "#f39c12"
+        overall_text = (
+            "ஜாதகப் பொருத்தம் மிதமாக உள்ளது. ரஜ்ஜு தோஷம் இல்லை, ஆனால் சில கிரக அமைப்புகளுக்கு "
+            "திருமணத்திற்கு முன் உரிய பரிகாரப் பூஜைகள் செய்வது குடும்ப அமைதிக்கும் சந்ததி விருத்திக்கும் நல்லது."
+            if is_ta else
+            "The alliance is moderately compatible. Major deal-breakers (Rajju/Vedha exceptions) are avoided. "
+            "However, performing traditional remedies for 5th house/nodal placements is suggested to ensure smooth family life."
+        )
+    else:
+        overall_status = "பொருத்தம் இல்லை - தவிர்க்கவும் (Not Recommended)" if is_ta else "Not Recommended"
+        status_color = "#d9534f"
+        overall_text = (
+            "தோஷ சமநிலையின்மை (செவ்வாய்/சர்ப்ப தோஷம்) அல்லது ரஜ்ஜு/வேதை தோஷம் அல்லது 6/8 அஷ்டம ராசி பொருத்தம் "
+            "இல்லாத காரணத்தினால் இந்த ஜாதக இணைப்பு பரிந்துரைக்கப்படவில்லை."
+            if is_ta else
+            "This combination is not recommended due to uncancelled Rajju/Vedha Dosha, severe Chevvai/Sarpa imbalance, or an inauspicious 6/8 (Shashtashtaka) Rasi relationship."
+        )
+
+    return {
+        "porutham_score": score_str,
+        "porutham_details": porutham_res["poruthams"],
+        "chevvai": {"girl": g_chevvai, "boy": b_chevvai, "is_match": chevvai_match},
+        "sarpa": {"girl": g_sarpa, "boy": b_sarpa, "is_match": sarpa_match},
+        "kaalsarpa": {"girl": g_kaal, "boy": b_kaal, "is_match": kaalsarpa_match},
+        "pitru": {"girl": g_pitru, "boy": b_pitru},
+        "shashtashtaka": shashtashtaka,
+        "overall_status": overall_status,
+        "status_color": status_color,
+        "overall_summary": overall_text
+    }
